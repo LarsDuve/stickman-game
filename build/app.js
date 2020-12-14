@@ -1,7 +1,7 @@
 class Game {
     constructor(canvas) {
         this.canvas = canvas;
-        this.canvas.width = window.innerWidth / 3;
+        this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
 }
