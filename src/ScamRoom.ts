@@ -20,6 +20,7 @@ class ScamRoom {
         this.status = `closed`;
 
         this.gameState = GameState.Keuken;
+        // this.gameState = GameState.Laptop;
 
         this.loop();
 
@@ -97,10 +98,11 @@ class ScamRoom {
     public laptop(canvas:HTMLCanvasElement){
         this.status = `open`
         this.setBackgroundLaptop();
-        this.gameObjects.push(new Website(`Website-1`, `./assets/img/chat-1.png`,90, 90));
-        this.gameObjects.push(new Website(`Website-2`, `./assets/img/NigerianScamEmail-1.png`,1000, 90));
-        // this.gameObjects.push(new Website(`Website-3`, `./assets/img/catfish_nazi_fb-865x452.png`,90, 575));
-        // this.gameObjects.push(new Website(`Website-4`, `./assets/img/catfish_nazi_fb-865x452.png`,200, 200));
+        this.gameObjects.push(new Website(`Website-1`, `./assets/img/chat-1.png`,100, 90));
+        this.gameObjects.push(new Website(`Website-2`, `./assets/img/NigerianScamEmail-1.png`,1170, 90));
+        this.gameObjects.push(new Website(`Website-3`, `./assets/img/the_nigerian_prince_scam.png`,100, 480));
+        this.gameObjects.push(new Website(`Website-4`, `./assets/img/whatsapp-berichtje.png`,770, 90));
+        this.gameObjects.push(new Website(`Website-5`, `./assets/img/whatsapp.png`,1170, 480));
         for (let index = 2; index < this.gameObjects.length; index++) {
             this.gameObjects[index].draw(canvas);
         }
