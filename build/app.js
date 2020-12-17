@@ -37,15 +37,10 @@ class Character extends GameObjects {
 }
 class Game {
     constructor(canvas) {
-        this.loop = () => {
-            this.scamRoom.draw(this.canvas);
-            requestAnimationFrame(this.loop);
-        };
         this.canvas = canvas;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.scamRoom = new ScamRoom(this.canvas);
-        this.loop();
     }
     static loadNewImage(source) {
         const img = new Image();
@@ -53,6 +48,11 @@ class Game {
         return img;
     }
 }
+var GameState;
+(function (GameState) {
+    GameState[GameState["Keuken"] = 0] = "Keuken";
+    GameState[GameState["Laptop"] = 1] = "Laptop";
+})(GameState || (GameState = {}));
 class Laptop extends GameObjects {
     constructor(xPos, yPos) {
         super(`laptop`, `./assets/img/laptop-resize.png`, xPos, yPos);
@@ -60,6 +60,16 @@ class Laptop extends GameObjects {
 }
 class ScamRoom {
     constructor(canvas) {
+        this.loop = () => {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            if (this.gameState == GameState.Keuken) {
+                this.draw(this.canvas);
+            }
+            else if (this.gameState == GameState.Laptop) {
+                this.laptop(this.canvas);
+            }
+            requestAnimationFrame(this.loop);
+        };
         this.mouseHandler = (event) => {
             console.log(`xPos ${event.clientX}, yPos ${event.clientY}, target: ${event.target}`);
             for (let index = 0; index < this.gameObjects.length; index++) {
@@ -69,34 +79,44 @@ class ScamRoom {
                     event.clientY <= this.gameObjects[index].getYPos() + this.gameObjects[index].getImageWidth()) {
                     console.log(`clicked ${this.gameObjects[index].getName()}`);
                     if (this.gameObjects[index].getName() === `laptop`) {
-                        this.openLaptop();
+                        this.gameState = GameState.Laptop;
                     }
                 }
             }
         };
-        this.setBackground();
+        this.canvas = canvas;
+        this.ctx = this.canvas.getContext("2d");
         canvas.addEventListener(`click`, this.mouseHandler);
         this.gameObjects = [];
-        this.gameObjects.push(new Laptop(850, 100), new Character(500, 200));
-        this.links = [`www.gmail.com`, `www.gmoil.com`, `www.epicgames.com`, `www.epiicgames.com`, `www.rabobamk.nl`, `www.rabobank.nl`];
+        this.gameObjects.push(new Laptop(450, 600), new Character(1600, 620));
         this.status = `closed`;
+        this.gameState = GameState.Keuken;
+        this.loop();
     }
     setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/garage.png)`;
+        document.body.style.backgroundImage = `url(./assets/img/keuken.png)`;
     }
-    openLaptop() {
-        this.status = `open`;
+    setBackgroundLaptop() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
     draw(canvas) {
-        const ctx = canvas.getContext('2d');
+        this.setBackground();
         for (let index = 0; index < this.gameObjects.length; index++) {
             this.gameObjects[index].draw(canvas);
         }
-        if (this.status === `open`) {
-            ctx.font = `32px Calibri`;
-            ctx.fillStyle = "red";
-            ctx.fillText(`Click all the bad links in time!`, canvas.width / 2, 40);
+    }
+    laptop(canvas) {
+        this.status = `open`;
+        this.setBackgroundLaptop();
+        this.gameObjects.push(new Website(`Website-1`, `./assets/img/chat-1.png`, 90, 90));
+        this.gameObjects.push(new Website(`Website-2`, `./assets/img/NigerianScamEmail-1.png`, 1000, 90));
+        for (let index = 2; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
         }
+        this.ctx.font = `32px Calibri`;
+        this.ctx.fillStyle = "red";
+        this.ctx.fillText(`Welke foto is geen voorbeeld van catfishing `, 700, 38);
     }
 }
 console.log("Javascript is working!");
@@ -104,4 +124,9 @@ window.addEventListener('load', () => {
     console.log("Handling the Load event");
     const game = new Game(document.getElementById('canvas'));
 });
+class Website extends GameObjects {
+    constructor(name, imgSrc, xPos, yPos) {
+        super(name, imgSrc, xPos, yPos);
+    }
+}
 //# sourceMappingURL=app.js.map

@@ -14,14 +14,14 @@ class Game {
 
         this.scamRoom = new ScamRoom(this.canvas);
 
-        this.loop();
+        // this.loop();
     }
 
-    private loop = () => {
-        this.scamRoom.draw(this.canvas);
+    // private loop = () => {
+    //     this.scamRoom.draw(this.canvas);
     
-        requestAnimationFrame(this.loop);
-    };
+    //     requestAnimationFrame(this.loop);
+    // };
 
             /**
     * Loads an image in such a way that the screen doesn't constantly flicker
