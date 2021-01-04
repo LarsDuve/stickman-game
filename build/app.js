@@ -30,7 +30,10 @@ class GameObjects {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
 class CreepyMan extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("./assets/pictures/creepyMan.png", xPos, yPos, "CreepyMan");
@@ -45,6 +48,9 @@ class Laptop extends GameObjects {
         this._imageWidth = thisWidth;
     }
 }
+<<<<<<< HEAD
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
+=======
 >>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
 let init = () => {
     const KiwiWars = new PrivacyRoom(document.getElementById("canvas"));
@@ -72,6 +78,7 @@ class PrivacyRoom {
         this.gameObjects = [];
         this.mouseListener();
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.loop();
     }
     laptopState() {
@@ -94,6 +101,8 @@ class PrivacyRoom {
     }
     draw() {
 =======
+=======
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
         this.setBackgroundPrivacy();
         this.gameObjects.push(new Laptop(850, 290, 250, 200));
         this.gameObjects.push(new CreepyMan(425, 200, 100, 200));
@@ -101,6 +110,9 @@ class PrivacyRoom {
     }
     draw() {
         this.writeTextToCanvas(this.ctx, `Score is:`, 40, 100, 40);
+<<<<<<< HEAD
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
+=======
 >>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
         for (let i = 0; i < this.gameObjects.length; i++) {
             this.gameObjects[i].draw(this.ctx);
@@ -139,8 +151,13 @@ class PrivacyRoom {
                 if (this.gameObjects[i].name == "Laptop") {
                     console.log("laptop geklikt");
 <<<<<<< HEAD
+<<<<<<< HEAD
                     this.gameState = "laptopState";
                     console.log(this.gameState);
+=======
+                }
+                else {
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
 =======
                 }
                 else {
@@ -164,6 +181,7 @@ class PrivacyRoom {
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
+<<<<<<< HEAD
 <<<<<<< HEAD
     }
 }
@@ -207,6 +225,8 @@ class personID extends GameObjects {
         super("./assets/pictures/personID.png", xPos, yPos, "personID");
         this._imageHeight = thisHeight;
         this._imageWidth = thisWidth;
+=======
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
 =======
 >>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
     }
