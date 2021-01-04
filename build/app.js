@@ -29,6 +29,23 @@ class GameObjects {
         ctx.drawImage(this._image, this._xPos, this._yPos, this._imageWidth, this._imageHeight);
     }
 }
+<<<<<<< HEAD
+=======
+class CreepyMan extends GameObjects {
+    constructor(xPos, yPos, thisWidth, thisHeight) {
+        super("./assets/pictures/creepyMan.png", xPos, yPos, "CreepyMan");
+        this._imageHeight = thisHeight;
+        this._imageWidth = thisWidth;
+    }
+}
+class Laptop extends GameObjects {
+    constructor(xPos, yPos, thisWidth, thisHeight) {
+        super("./assets/pictures/laptopPrivacy.png", xPos, yPos, "Laptop");
+        this._imageHeight = thisHeight;
+        this._imageWidth = thisWidth;
+    }
+}
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
 let init = () => {
     const KiwiWars = new PrivacyRoom(document.getElementById("canvas"));
 };
@@ -54,6 +71,7 @@ class PrivacyRoom {
         this.ctx = this.canvas.getContext("2d");
         this.gameObjects = [];
         this.mouseListener();
+<<<<<<< HEAD
         this.loop();
     }
     laptopState() {
@@ -75,6 +93,15 @@ class PrivacyRoom {
         }
     }
     draw() {
+=======
+        this.setBackgroundPrivacy();
+        this.gameObjects.push(new Laptop(850, 290, 250, 200));
+        this.gameObjects.push(new CreepyMan(425, 200, 100, 200));
+        this.draw();
+    }
+    draw() {
+        this.writeTextToCanvas(this.ctx, `Score is:`, 40, 100, 40);
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
         for (let i = 0; i < this.gameObjects.length; i++) {
             this.gameObjects[i].draw(this.ctx);
         }
@@ -111,8 +138,13 @@ class PrivacyRoom {
                 event.clientY <= this.gameObjects[i].yPos + this.gameObjects[i].imageWidth) {
                 if (this.gameObjects[i].name == "Laptop") {
                     console.log("laptop geklikt");
+<<<<<<< HEAD
                     this.gameState = "laptopState";
                     console.log(this.gameState);
+=======
+                }
+                else {
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
                 }
             }
         }
@@ -132,6 +164,7 @@ class PrivacyRoom {
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
+<<<<<<< HEAD
     }
 }
 class CreepyMan extends GameObjects {
@@ -174,6 +207,8 @@ class personID extends GameObjects {
         super("./assets/pictures/personID.png", xPos, yPos, "personID");
         this._imageHeight = thisHeight;
         this._imageWidth = thisWidth;
+=======
+>>>>>>> 519f2422fe30f0f1e3d884a306a671d8f1c13772
     }
 }
 //# sourceMappingURL=app.js.map
