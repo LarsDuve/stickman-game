@@ -1,9 +1,9 @@
-console.log("Javascript is working!");
+// Initialize the game after the DOM is loaded.
+let init = () => {
+  const KiwiWars = new PrivacyRoom(
+    document.getElementById("canvas") as HTMLCanvasElement
+  );
+};
 
 // Add EventListener to load the game whenever the browser is ready
-window.addEventListener('load', () => {
-    console.log("Handling the Load event");
-
-    const game = new Game(document.getElementById('canvas'));
-});
-
+window.addEventListener("load", init);
