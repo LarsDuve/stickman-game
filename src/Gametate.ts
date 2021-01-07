@@ -1,4 +1,6 @@
 enum GameState {
     Keuken,
-    Laptop
+    Laptop,
+    WrongSite,
+    GoodSite
 }

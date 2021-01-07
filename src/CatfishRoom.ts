@@ -33,12 +33,20 @@ class ScamRoom {
   private loop = () => {
     // Clear the canvas -> cxt.clearRect(...)
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // for (let i = -100; i < this.gameObjects.length; i++) {
+    //     this.gameObjects.shift();
+    // }
 
     if (this.gameState == GameState.Keuken) {
       this.draw(this.canvas);
     } else if (this.gameState == GameState.Laptop) {
         this.laptop(this.canvas);
+    }else if (this.gameState == GameState.WrongSite) {
+        this.wrongSite(this.canvas);
+    }else if (this.gameState == GameState.GoodSite) {
+        this.goodSite(this.canvas);
     }
+
     requestAnimationFrame(this.loop);
   };
 
@@ -61,6 +69,14 @@ class ScamRoom {
                     // this.openLaptop();
                     this.gameState = GameState.Laptop
                 }
+                if(this.gameObjects[index].getName() === `Website-1` || this.gameObjects[index].getName() === `Website-2`){
+                    // this.openLaptop();
+                    this.gameState = GameState.WrongSite
+                }
+                if(this.gameObjects[index].getName() === `Website-4`){
+                    // this.openLaptop();
+                    this.gameState = GameState.GoodSite
+                }
             }
         }
     }
@@ -70,6 +86,16 @@ class ScamRoom {
     }
 
     private setBackgroundLaptop() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
+    }
+
+    private setBackgroundWrogSite() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
+    }
+
+    private setBackgroundGoodSite() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
@@ -109,5 +135,14 @@ class ScamRoom {
         this.ctx.font = `32px Calibri`;
         this.ctx.fillStyle = "red";
         this.ctx.fillText(`Welke foto is geen voorbeeld van catfishing `, 700, 38);
+
+    }
+    public wrongSite(canvas:HTMLCanvasElement){
+        console.log("error");
+        this.setBackgroundWrogSite
+    }
+    public goodSite(canvas:HTMLCanvasElement){
+        console.log("verry nice");
+        this.setBackgroundGoodSite
     }
 }
