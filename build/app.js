@@ -14,6 +14,12 @@ class ScamRoom {
             else if (this.gameState == GameState.GoodSite) {
                 this.goodSite(this.canvas);
             }
+            else if (this.gameState == GameState.WrongSiteEnd) {
+                this.wrongSiteEnd(this.canvas);
+            }
+            else if (this.gameState == GameState.GoodSiteEnd) {
+                this.goodSiteEnd(this.canvas);
+            }
             requestAnimationFrame(this.loop);
         };
         this.mouseHandler = (event) => {
@@ -32,6 +38,12 @@ class ScamRoom {
                     }
                     if (this.gameObjects[index].getName() === `Website-4`) {
                         this.gameState = GameState.GoodSite;
+                    }
+                    if (this.gameObjects[index].getName() === `refresh`) {
+                        this.gameState = GameState.WrongSiteEnd;
+                    }
+                    if (this.gameObjects[index].getName() === `refresh-2`) {
+                        this.gameState = GameState.GoodSiteEnd;
                     }
                 }
             }
@@ -52,11 +64,7 @@ class ScamRoom {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
-    setBackgroundWrogSite() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
-    }
-    setBackgroundGoodSite() {
+    setBackgroundSite() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
@@ -83,11 +91,58 @@ class ScamRoom {
     }
     wrongSite(canvas) {
         console.log("error");
-        this.setBackgroundWrogSite;
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite;
+        this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`, 54, 44));
+        this.gameObjects.push(new Website(`refresh`, `./assets/img/refresh.png`, 270, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+        this.ctx.font = `102px Calibri`;
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(`Refresh de site `, 680, 120);
+    }
+    wrongSiteEnd(canvas) {
+        console.log("verry nice");
+        this.setBackgroundSite;
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite;
+        this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`, 54, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
     }
     goodSite(canvas) {
         console.log("verry nice");
-        this.setBackgroundGoodSite;
+        this.setBackgroundSite;
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite;
+        this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`, 54, 44));
+        this.gameObjects.push(new Website(`refresh-2`, `./assets/img/refresh-2.png`, 270, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+        this.ctx.font = `102px Calibri`;
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(`Refresh de site `, 680, 120);
+    }
+    goodSiteEnd(canvas) {
+        console.log("verry nice");
+        this.setBackgroundSite;
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite;
+        this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`, 54, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
     }
 }
 class GameObjects {
@@ -146,6 +201,8 @@ var GameState;
     GameState[GameState["Laptop"] = 1] = "Laptop";
     GameState[GameState["WrongSite"] = 2] = "WrongSite";
     GameState[GameState["GoodSite"] = 3] = "GoodSite";
+    GameState[GameState["WrongSiteEnd"] = 4] = "WrongSiteEnd";
+    GameState[GameState["GoodSiteEnd"] = 5] = "GoodSiteEnd";
 })(GameState || (GameState = {}));
 class Laptop extends GameObjects {
     constructor(xPos, yPos) {

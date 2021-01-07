@@ -45,6 +45,10 @@ class ScamRoom {
         this.wrongSite(this.canvas);
     }else if (this.gameState == GameState.GoodSite) {
         this.goodSite(this.canvas);
+    }else if (this.gameState == GameState.WrongSiteEnd) {
+        this.wrongSiteEnd(this.canvas);
+    }else if (this.gameState == GameState.GoodSiteEnd) {
+        this.goodSiteEnd(this.canvas);
     }
 
     requestAnimationFrame(this.loop);
@@ -77,6 +81,14 @@ class ScamRoom {
                     // this.openLaptop();
                     this.gameState = GameState.GoodSite
                 }
+                if(this.gameObjects[index].getName() === `refresh`){
+                    // this.openLaptop();
+                    this.gameState = GameState.WrongSiteEnd
+                }
+                if(this.gameObjects[index].getName() === `refresh-2`){
+                    // this.openLaptop();
+                    this.gameState = GameState.GoodSiteEnd
+                }
             }
         }
     }
@@ -90,12 +102,7 @@ class ScamRoom {
         document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
 
-    private setBackgroundWrogSite() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
-    }
-
-    private setBackgroundGoodSite() {
+    private setBackgroundSite() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         document.body.style.backgroundImage = `url(./assets/img/Laptopscherm.png)`;
     }
@@ -139,10 +146,59 @@ class ScamRoom {
     }
     public wrongSite(canvas:HTMLCanvasElement){
         console.log("error");
-        this.setBackgroundWrogSite
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite
+        this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
+        this.gameObjects.push(new Website(`refresh`, `./assets/img/refresh.png`,270, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+        this.ctx.font = `102px Calibri`;
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(`Refresh de site `, 680, 120);
     }
+    public wrongSiteEnd(canvas:HTMLCanvasElement){
+        console.log("verry nice");
+        this.setBackgroundSite
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite
+        this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`,54, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+    }
+
     public goodSite(canvas:HTMLCanvasElement){
         console.log("verry nice");
-        this.setBackgroundGoodSite
+        this.setBackgroundSite
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite
+        this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
+        this.gameObjects.push(new Website(`refresh-2`, `./assets/img/refresh-2.png`,270, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+        this.ctx.font = `102px Calibri`;
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(`Refresh de site `, 680, 120);
     }
+    public goodSiteEnd(canvas:HTMLCanvasElement){
+        console.log("verry nice");
+        this.setBackgroundSite
+        for (let i = -100; i < this.gameObjects.length; i++) {
+            this.gameObjects.shift();
+        }
+        this.setBackgroundSite
+        this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`,54, 44));
+        for (let index = 0; index < this.gameObjects.length; index++) {
+            this.gameObjects[index].draw(canvas);
+        }
+    }
+    
 }
