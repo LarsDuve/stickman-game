@@ -3,19 +3,33 @@
  * coords for laptop - x:1152 y:507
  */
 
+<<<<<<< HEAD
 class PrivacyRoom {
 
+=======
+
+class PrivacyRoom {
+
+
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
     // The canvas
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private gameObjects: GameObjects[];
     private gameState: string;
+<<<<<<< HEAD
     private counterForClicks: number;
+=======
+    
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
 
     public constructor(canvas: HTMLCanvasElement){
         this.canvas = canvas;
         // create canvas
+<<<<<<< HEAD
         this.counterForClicks = 0;
+=======
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
@@ -30,6 +44,7 @@ class PrivacyRoom {
    */
   private loop = () => {
     console.log(this.gameObjects);
+<<<<<<< HEAD
     //a loop that removes the first index of an array, don't adjust.
     for (let i=-100; i<this.gameObjects.length; i++){
       this.gameObjects.shift();
@@ -37,6 +52,11 @@ class PrivacyRoom {
     console.log(this.gameState);
  
 
+=======
+
+
+    
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
     
     if (this.gameState === "laptopState"){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -45,6 +65,7 @@ class PrivacyRoom {
       
       
     }
+<<<<<<< HEAD
     else if(this.gameState === "nextPictureState"){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.nextPictureState();
@@ -141,6 +162,43 @@ private blindsUpWrongState(){
   this.gameObjects.push(new blindsUpPicture(320,22,300,300));
   this.gameObjects.push(new blindsClickerPicture(600,50,50,300));
   this.draw();
+=======
+    else if (this.gameState = "beginState"){
+      // setBackgroundPrivacy must be first, it's the background.
+      this.setBackgroundPrivacy();
+      this.beginState();
+    
+
+    }
+    
+    
+   
+      
+    requestAnimationFrame(this.loop);
+  };
+  private laptopState(){
+    if (this.gameState === "laptopState"){
+    this.gameObjects.shift();
+    this.gameObjects.push(new LaptopScreen(200,50,1300,920));
+    this.gameObjects.shift();
+    this.gameObjects.push(new houseNumber(350,200,800,600));
+    this.draw();
+    }
+
+    
+   
+    
+
+  }
+  private beginState(){
+    if (this.gameState === "beginState"){
+   this.gameObjects.shift();
+   this.gameObjects.shift();
+    this.gameObjects.push(new Laptop(850,290,250,200));
+    this.gameObjects.push(new CreepyMan(425,200,100,200));
+    this.draw();
+  }
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
 }
      /**
      * Method to draw to the canvas
@@ -195,11 +253,15 @@ private blindsUpWrongState(){
       let rect = this.canvas.getBoundingClientRect(); 
       let x = event.clientX - rect.left; 
       let y = event.clientY - rect.top; 
+<<<<<<< HEAD
       console.log(`Coordinate x: ${x}, Coordinate y: ${y}`);
       
       
       //variable amount of clicks on the next button
       
+=======
+      console.log(`Coordinate x: ${x}, Coordinate y: ${y}`); 
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
 
       for (let i=0; i < this.gameObjects.length; i++){
       if (
@@ -208,6 +270,7 @@ private blindsUpWrongState(){
         event.clientY >= this.gameObjects[i].yPos &&
         event.clientY <= this.gameObjects[i].yPos + this.gameObjects[i].imageWidth
     ) {
+<<<<<<< HEAD
       console.log(this.gameObjects[i].name);
       
         if (this.gameState === "beginState" && this.gameObjects[i].name === "blindsClickerPicture"){
@@ -257,6 +320,13 @@ private blindsUpWrongState(){
           
 
         }
+=======
+        if (this.gameObjects[i].name == "Laptop") {
+            console.log("laptop geklikt");
+            this.gameState = "laptopState"
+            console.log(this.gameState);
+        } 
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
     }
   } 
 }
@@ -271,6 +341,11 @@ private blindsUpWrongState(){
       
   }); 
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
       /**
    * Method to load an image
    * @param {HTMLImageElement} source
@@ -297,7 +372,11 @@ private blindsUpWrongState(){
       xCoordinate: number,
       yCoordinate: number,
       alignment: CanvasTextAlign = "center",
+<<<<<<< HEAD
       color: string = "black"
+=======
+      color: string = "red"
+>>>>>>> 681db4fb114698dcb64edffae46c98291232f247
   ) {
       ctx.font = `${fontSize}px Minecraft`;
       ctx.fillStyle = color;
