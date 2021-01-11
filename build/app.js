@@ -37,19 +37,15 @@ class PrivacyRoom {
     constructor(canvas) {
         this.loop = () => {
             console.log(this.gameObjects);
-<<<<<<< HEAD
             for (let i = -100; i < this.gameObjects.length; i++) {
                 this.gameObjects.shift();
             }
             console.log(this.gameState);
-=======
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
             if (this.gameState === "laptopState") {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 console.log("gamestate changed");
                 this.laptopState();
             }
-<<<<<<< HEAD
             else if (this.gameState === "nextPictureState") {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 this.nextPictureState();
@@ -76,12 +72,6 @@ class PrivacyRoom {
                 this.beginState();
             }
             console.log(this.counterForClicks);
-=======
-            else if (this.gameState = "beginState") {
-                this.setBackgroundPrivacy();
-                this.beginState();
-            }
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
             requestAnimationFrame(this.loop);
         };
         this.canvas = canvas;
@@ -93,7 +83,6 @@ class PrivacyRoom {
         this.mouseListener();
         this.loop();
     }
-<<<<<<< HEAD
     nextPictureState() {
         this.gameObjects.push(new LaptopScreen(200, 50, 1300, 920));
         if (this.counterForClicks === 0) {
@@ -144,25 +133,6 @@ class PrivacyRoom {
         this.gameObjects.push(new blindsUpPicture(320, 22, 300, 300));
         this.gameObjects.push(new blindsClickerPicture(600, 50, 50, 300));
         this.draw();
-=======
-    laptopState() {
-        if (this.gameState === "laptopState") {
-            this.gameObjects.shift();
-            this.gameObjects.push(new LaptopScreen(200, 50, 1300, 920));
-            this.gameObjects.shift();
-            this.gameObjects.push(new houseNumber(350, 200, 800, 600));
-            this.draw();
-        }
-    }
-    beginState() {
-        if (this.gameState === "beginState") {
-            this.gameObjects.shift();
-            this.gameObjects.shift();
-            this.gameObjects.push(new Laptop(850, 290, 250, 200));
-            this.gameObjects.push(new CreepyMan(425, 200, 100, 200));
-            this.draw();
-        }
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
     }
     draw() {
         for (let i = 0; i < this.gameObjects.length; i++) {
@@ -199,7 +169,6 @@ class PrivacyRoom {
                 event.clientX < this.gameObjects[i].xPos + this.gameObjects[i].imageWidth &&
                 event.clientY >= this.gameObjects[i].yPos &&
                 event.clientY <= this.gameObjects[i].yPos + this.gameObjects[i].imageWidth) {
-<<<<<<< HEAD
                 console.log(this.gameObjects[i].name);
                 if (this.gameState === "beginState" && this.gameObjects[i].name === "blindsClickerPicture") {
                     console.log("blinds geklikt");
@@ -211,14 +180,11 @@ class PrivacyRoom {
                     this.gameState = "blindsUpWrongState";
                     console.log(this.gameState);
                 }
-=======
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
                 if (this.gameObjects[i].name == "Laptop") {
                     console.log("laptop geklikt");
                     this.gameState = "laptopState";
                     console.log(this.gameState);
                 }
-<<<<<<< HEAD
                 if (this.gameObjects[i].name == "nextPicture") {
                     this.counterForClicks += 1;
                     console.log("Next geklikt");
@@ -240,8 +206,6 @@ class PrivacyRoom {
                     console.log("Upload geklikt");
                     this.gameState = "wrongUploadState";
                 }
-=======
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
             }
         }
     }
@@ -255,18 +219,13 @@ class PrivacyRoom {
         img.src = source;
         return img;
     }
-<<<<<<< HEAD
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "black") {
-=======
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
         ctx.font = `${fontSize}px Minecraft`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
-<<<<<<< HEAD
 class backPicture extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("./assets/pictures/Back.png", xPos, yPos, "backPicture");
@@ -295,8 +254,6 @@ class blindsUpPicture extends GameObjects {
         this._imageWidth = thisWidth;
     }
 }
-=======
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
 class CreepyMan extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("./assets/pictures/creepyMan.png", xPos, yPos, "CreepyMan");
@@ -311,7 +268,6 @@ class Laptop extends GameObjects {
         this._imageWidth = thisWidth;
     }
 }
-<<<<<<< HEAD
 class nextPicture extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("./assets/pictures/Next.png", xPos, yPos, "nextPicture");
@@ -326,8 +282,6 @@ class uploadPicture extends GameObjects {
         this._imageWidth = thisWidth;
     }
 }
-=======
->>>>>>> 681db4fb114698dcb64edffae46c98291232f247
 class houseNumber extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("./assets/pictures/houseNumber.png", xPos, yPos, "houseNumber");
