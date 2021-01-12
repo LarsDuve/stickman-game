@@ -120,7 +120,13 @@ class LaptopScreen {
                 468
             );
         }
-    
+        this.writeTextToCanvas(
+            ctx,
+            "Tip: Misschien heb je je wachtwoord ergens achter verstopt",
+            19,
+            530,
+            500
+        );
     }
 
     /*

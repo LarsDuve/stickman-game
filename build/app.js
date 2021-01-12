@@ -72,6 +72,13 @@ class CharacterSitting extends GameObject {
 }
 CharacterSitting.NAME = "character-sitting";
 CharacterSitting.SOURCE = "./assets/img/stickman-with-chair.png";
+class ForgotPassword extends GameObject {
+    constructor(canvas) {
+        super(ForgotPassword.NAME, 670, 480, canvas, ForgotPassword.SOURCE);
+    }
+}
+ForgotPassword.NAME = "forgot-password";
+ForgotPassword.SOURCE = "./assets/img/forgot-password.png";
 class Game {
     constructor(canvas) {
         this.loop = () => {
@@ -274,6 +281,7 @@ class LaptopScreen {
         for (let i = 0; i < this.password.length; i++) {
             this.writeTextToCanvas(ctx, this.passwordInput.join(""), 25, 616, 468);
         }
+        this.writeTextToCanvas(ctx, "Tip: Misschien heb je je wachtwoord ergens achter verstopt", 19, 530, 500);
     }
     drawGame(ctx) {
         this.gameObjects.forEach(gameObject => {
