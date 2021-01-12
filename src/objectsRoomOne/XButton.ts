@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
 class XButton extends GameObject {
     private static readonly NAME = "xbutton";
-    private static readonly SOURCE = "./assets/img/xbutton.png";
+    private static readonly SOURCE = "./assets/imgRoomOne/xbutton.png";
 
     /**
      * Constructs an object of this class.

@@ -55,7 +55,7 @@ class LaptopScreen {
     };
 
     private setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/laptopscreen.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgRoomOne/laptopscreen.png)`;
     }
 
     /**

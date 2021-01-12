@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
 class PasswordNoteZoom extends GameObject {
     private static readonly NAME = "password-note-zoom";
-    private static readonly SOURCE = "./assets/img/note-zoom.png";
+    private static readonly SOURCE = "./assets/imgRoomOne/note-zoom.png";
 
     /**
      * Constructs an object of this class.

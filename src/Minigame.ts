@@ -48,7 +48,7 @@ class Minigame {
     };
 
     private setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgRoomOne/livingroom-empty.png)`;
     }
 
     /**

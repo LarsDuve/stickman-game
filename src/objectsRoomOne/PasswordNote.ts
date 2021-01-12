@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
 class PasswordNote extends GameObject {
     private static readonly NAME = "password-note";
-    private static readonly SOURCE = "./assets/img/note.png";
+    private static readonly SOURCE = "./assets/imgRoomOne/note.png";
 
     /**
      * Constructs an object of this class.

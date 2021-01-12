@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
 class Trash extends GameObject {
     private static readonly NAME = "trash";
-    private static readonly SOURCE = "./assets/img/trash.png";
+    private static readonly SOURCE = "./assets/imgRoomOne/trash.png";
 
     /**
      * Constructs an object of this class.

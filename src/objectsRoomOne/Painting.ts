@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
-class Trashcan extends GameObject {
-    private static readonly NAME = "trashcan";
-    private static readonly SOURCE = "./assets/img/trashcan.png";
+class Painting extends GameObject {
+    private static readonly NAME = "painting";
+    private static readonly SOURCE = "./assets/imgRoomOne/painting.png";
 
     /**
      * Constructs an object of this class.
@@ -10,7 +10,7 @@ class Trashcan extends GameObject {
      * @param canvas the canvas to spawn on
      */
     public constructor(canvas: HTMLCanvasElement) {
-        super(Trashcan.NAME, 780 ,500, canvas, Trashcan.SOURCE);
+        super(Painting.NAME, 360, 65, canvas, Painting.SOURCE);
     }
 
     public move(canvas: HTMLCanvasElement) {

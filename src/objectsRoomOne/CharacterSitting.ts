@@ -1,8 +1,8 @@
-/// <reference path="GameObject.ts" />
+/// <reference path=".././GameObject.ts" />
 
 class CharacterSitting extends GameObject {
     private static readonly NAME = "character-sitting";
-    private static readonly SOURCE = "./assets/img/stickman-with-chair.png";
+    private static readonly SOURCE = "./assets/imgRoomOne/stickman-with-chair.png";
 
     /**
      * Constructs an object of this class.

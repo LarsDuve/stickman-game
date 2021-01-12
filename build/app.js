@@ -1,3 +1,57 @@
+class Game {
+    constructor(canvas) {
+        this.loop = () => {
+            this.draw();
+            requestAnimationFrame(this.loop);
+        };
+        this.mouseHandler = (event) => {
+            this.gameObjects.forEach(gameObject => {
+                if (gameObject.hits(event.clientX, event.clientY)) {
+                    if (gameObject.gameState === "unclicked") {
+                        console.log(`clicked ${gameObject.getName()}`);
+                        if (gameObject.getName() === "laptop") {
+                            this.laptopscreen = new LaptopScreen(this.canvas);
+                            this.gameObjects = [];
+                        }
+                    }
+                }
+            });
+        };
+        this.canvas = canvas;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        console.log(this.canvas.width, this.canvas.height);
+        this.setBackground();
+        this.gameObjects = [];
+        this.gameObjects.push(new Table(this.canvas));
+        this.gameObjects.push(new Laptop(this.canvas));
+        this.gameObjects.push(new CharacterSitting(this.canvas));
+        this.gameObjects.push(new Trashcan(this.canvas));
+        this.gameObjects.push(new Painting(this.canvas));
+        this.gameObjects.push(new Plant(this.canvas));
+        document.addEventListener("click", this.mouseHandler);
+        this.loop();
+    }
+    setBackground() {
+        document.body.style.backgroundImage = `url(./assets/imgRoomOne/livingroom-empty.png)`;
+    }
+    draw() {
+        const ctx = this.canvas.getContext("2d");
+        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawGame(ctx);
+    }
+    drawGame(ctx) {
+        this.gameObjects.forEach(gameObject => {
+            gameObject.draw(ctx);
+        });
+    }
+    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
+        ctx.font = `${fontSize}px Minecraft`;
+        ctx.fillStyle = color;
+        ctx.textAlign = alignment;
+        ctx.fillText(text, xCoordinate, yCoordinate);
+    }
+}
 class GameObject {
     constructor(name, xPos, yPos, canvas, source) {
         this.name = name;
@@ -39,95 +93,6 @@ class GameObject {
         const img = new Image();
         img.src = source;
         return img;
-    }
-}
-class ArrowButton extends GameObject {
-    constructor(canvas) {
-        super(ArrowButton.NAME, 879, 439, canvas, ArrowButton.SOURCE);
-    }
-}
-ArrowButton.NAME = "arrowbutton";
-ArrowButton.SOURCE = "./assets/img/arrowbutton.png";
-class Chair extends GameObject {
-    constructor(canvas) {
-        super(Chair.NAME, 390, 350, canvas, Chair.SOURCE);
-    }
-}
-Chair.NAME = "chair";
-Chair.SOURCE = "./assets/img/chair.png";
-class Character extends GameObject {
-    constructor(canvas) {
-        super(Character.NAME, 540, 300, canvas, Character.SOURCE);
-    }
-}
-Character.NAME = "character";
-Character.SOURCE = "./assets/img/character.png";
-class CharacterSitting extends GameObject {
-    constructor(canvas) {
-        super(CharacterSitting.NAME, 543, 300, canvas, CharacterSitting.SOURCE);
-    }
-}
-CharacterSitting.NAME = "character-sitting";
-CharacterSitting.SOURCE = "./assets/img/stickman-with-chair.png";
-class ForgotPassword extends GameObject {
-    constructor(canvas) {
-        super(ForgotPassword.NAME, 670, 480, canvas, ForgotPassword.SOURCE);
-    }
-}
-ForgotPassword.NAME = "forgot-password";
-ForgotPassword.SOURCE = "./assets/img/forgot-password.png";
-class Game {
-    constructor(canvas) {
-        this.loop = () => {
-            this.draw();
-            requestAnimationFrame(this.loop);
-        };
-        this.mouseHandler = (event) => {
-            this.gameObjects.forEach(gameObject => {
-                if (gameObject.hits(event.clientX, event.clientY)) {
-                    if (gameObject.gameState === "unclicked") {
-                        console.log(`clicked ${gameObject.getName()}`);
-                        if (gameObject.getName() === "laptop") {
-                            this.laptopscreen = new LaptopScreen(this.canvas);
-                            this.gameObjects = [];
-                        }
-                    }
-                }
-            });
-        };
-        this.canvas = canvas;
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        console.log(this.canvas.width, this.canvas.height);
-        this.setBackground();
-        this.gameObjects = [];
-        this.gameObjects.push(new Table(this.canvas));
-        this.gameObjects.push(new Laptop(this.canvas));
-        this.gameObjects.push(new CharacterSitting(this.canvas));
-        this.gameObjects.push(new Trashcan(this.canvas));
-        this.gameObjects.push(new Painting(this.canvas));
-        this.gameObjects.push(new Plant(this.canvas));
-        document.addEventListener("click", this.mouseHandler);
-        this.loop();
-    }
-    setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
-    }
-    draw() {
-        const ctx = this.canvas.getContext("2d");
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGame(ctx);
-    }
-    drawGame(ctx) {
-        this.gameObjects.forEach(gameObject => {
-            gameObject.draw(ctx);
-        });
-    }
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
-        ctx.font = `${fontSize}px Minecraft`;
-        ctx.fillStyle = color;
-        ctx.textAlign = alignment;
-        ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
 class KeyListener {
@@ -205,13 +170,6 @@ KeyListener.KEY_W = 87;
 KeyListener.KEY_X = 88;
 KeyListener.KEY_Y = 89;
 KeyListener.KEY_Z = 90;
-class Laptop extends GameObject {
-    constructor(canvas) {
-        super(Laptop.NAME, 650, 280, canvas, Laptop.SOURCE);
-    }
-}
-Laptop.NAME = "laptop";
-Laptop.SOURCE = "./assets/img/laptop.png";
 class LaptopScreen {
     constructor(canvas) {
         this.loop = () => {
@@ -267,7 +225,7 @@ class LaptopScreen {
         this.loop();
     }
     setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/laptopscreen.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgRoomOne/laptopscreen.png)`;
     }
     draw() {
         const ctx = this.canvas.getContext("2d");
@@ -292,13 +250,6 @@ class LaptopScreen {
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
-class Leaf extends GameObject {
-    constructor(canvas) {
-        super(Leaf.NAME, 1330, 620, canvas, Leaf.SOURCE);
-    }
-}
-Leaf.NAME = "leaf";
-Leaf.SOURCE = "./assets/img/leaf.png";
 class Minigame {
     constructor(canvas) {
         this.loop = () => {
@@ -361,7 +312,7 @@ class Minigame {
         this.loop();
     }
     setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgRoomOne/livingroom-empty.png)`;
     }
     draw() {
         const ctx = this.canvas.getContext("2d");
@@ -384,6 +335,59 @@ class Minigame {
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
+let init = () => {
+    const stickmanGame = new Game(document.getElementById("canvas"));
+};
+window.addEventListener("load", init);
+class ArrowButton extends GameObject {
+    constructor(canvas) {
+        super(ArrowButton.NAME, 879, 439, canvas, ArrowButton.SOURCE);
+    }
+}
+ArrowButton.NAME = "arrowbutton";
+ArrowButton.SOURCE = "./assets/imgRoomOne/arrowbutton.png";
+class Chair extends GameObject {
+    constructor(canvas) {
+        super(Chair.NAME, 390, 350, canvas, Chair.SOURCE);
+    }
+}
+Chair.NAME = "chair";
+Chair.SOURCE = "./assets/imgRoomOne/chair.png";
+class Character extends GameObject {
+    constructor(canvas) {
+        super(Character.NAME, 540, 300, canvas, Character.SOURCE);
+    }
+}
+Character.NAME = "character";
+Character.SOURCE = "./assets/imgRoomOne/character.png";
+class CharacterSitting extends GameObject {
+    constructor(canvas) {
+        super(CharacterSitting.NAME, 543, 300, canvas, CharacterSitting.SOURCE);
+    }
+}
+CharacterSitting.NAME = "character-sitting";
+CharacterSitting.SOURCE = "./assets/imgRoomOne/stickman-with-chair.png";
+class ForgotPassword extends GameObject {
+    constructor(canvas) {
+        super(ForgotPassword.NAME, 670, 480, canvas, ForgotPassword.SOURCE);
+    }
+}
+ForgotPassword.NAME = "forgot-password";
+ForgotPassword.SOURCE = "./assets/imgRoomOne/forgot-password.png";
+class Laptop extends GameObject {
+    constructor(canvas) {
+        super(Laptop.NAME, 650, 280, canvas, Laptop.SOURCE);
+    }
+}
+Laptop.NAME = "laptop";
+Laptop.SOURCE = "./assets/imgRoomOne/laptop.png";
+class Leaf extends GameObject {
+    constructor(canvas) {
+        super(Leaf.NAME, 1330, 620, canvas, Leaf.SOURCE);
+    }
+}
+Leaf.NAME = "leaf";
+Leaf.SOURCE = "./assets/imgRoomOne/leaf.png";
 class Painting extends GameObject {
     constructor(canvas) {
         super(Painting.NAME, 360, 65, canvas, Painting.SOURCE);
@@ -393,21 +397,21 @@ class Painting extends GameObject {
     }
 }
 Painting.NAME = "painting";
-Painting.SOURCE = "./assets/img/painting.png";
+Painting.SOURCE = "./assets/imgRoomOne/painting.png";
 class PasswordNote extends GameObject {
     constructor(canvas) {
         super(PasswordNote.NAME, 380, 95, canvas, PasswordNote.SOURCE);
     }
 }
 PasswordNote.NAME = "password-note";
-PasswordNote.SOURCE = "./assets/img/note.png";
+PasswordNote.SOURCE = "./assets/imgRoomOne/note.png";
 class PasswordNoteZoom extends GameObject {
     constructor(canvas) {
         super(PasswordNoteZoom.NAME, 521, 95, canvas, PasswordNoteZoom.SOURCE);
     }
 }
 PasswordNoteZoom.NAME = "password-note-zoom";
-PasswordNoteZoom.SOURCE = "./assets/img/note-zoom.png";
+PasswordNoteZoom.SOURCE = "./assets/imgRoomOne/note-zoom.png";
 class Plant extends GameObject {
     constructor(canvas) {
         super(Plant.NAME, 1220, 340, canvas, Plant.SOURCE);
@@ -417,21 +421,21 @@ class Plant extends GameObject {
     }
 }
 Plant.NAME = "plant";
-Plant.SOURCE = "./assets/img/plant.png";
+Plant.SOURCE = "./assets/imgRoomOne/plant.png";
 class Table extends GameObject {
     constructor(canvas) {
         super(Table.NAME, 380, 270, canvas, Table.SOURCE);
     }
 }
 Table.NAME = "table";
-Table.SOURCE = "./assets/img/table.png";
+Table.SOURCE = "./assets/imgRoomOne/table.png";
 class Trash extends GameObject {
     constructor(canvas) {
         super(Trash.NAME, 808, 550, canvas, Trash.SOURCE);
     }
 }
 Trash.NAME = "trash";
-Trash.SOURCE = "./assets/img/trash.png";
+Trash.SOURCE = "./assets/imgRoomOne/trash.png";
 class Trashcan extends GameObject {
     constructor(canvas) {
         super(Trashcan.NAME, 780, 500, canvas, Trashcan.SOURCE);
@@ -441,16 +445,12 @@ class Trashcan extends GameObject {
     }
 }
 Trashcan.NAME = "trashcan";
-Trashcan.SOURCE = "./assets/img/trashcan.png";
+Trashcan.SOURCE = "./assets/imgRoomOne/trashcan.png";
 class XButton extends GameObject {
     constructor(canvas) {
         super(XButton.NAME, 1400, 80, canvas, XButton.SOURCE);
     }
 }
 XButton.NAME = "xbutton";
-XButton.SOURCE = "./assets/img/xbutton.png";
-let init = () => {
-    const stickmanGame = new Game(document.getElementById("canvas"));
-};
-window.addEventListener("load", init);
+XButton.SOURCE = "./assets/imgRoomOne/xbutton.png";
 //# sourceMappingURL=app.js.map
