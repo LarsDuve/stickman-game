@@ -3,8 +3,6 @@ class GameObjects {
     protected xPos: number;
     protected yPos: number;
     protected image: HTMLImageElement;
-    protected imageWidth: number;
-    protected imageHeight: number;
     protected name: string;
 
     constructor(name: string, imgSrc: string, xPos: number, yPos: number){
@@ -12,8 +10,6 @@ class GameObjects {
         this.xPos = xPos;
         this.yPos = yPos;
         this.name = name;
-        this.imageHeight = this.image.height;
-        this.imageWidth = this.image.width;
     }
 
     public getXPos(): number {
@@ -29,15 +25,19 @@ class GameObjects {
     }
 
     public getImageWidth(): number {
-        return this.imageWidth;
+        return this.image.width;
     }
 
     public getImageHeight(): number {
-        return this.imageHeight;
+        return this.image.height;
     }
 
     public getName(): string {
         return this.name;
+    }
+
+    public move(canvas: HTMLCanvasElement) {
+
     }
 
     public draw(canvas: HTMLCanvasElement) {
