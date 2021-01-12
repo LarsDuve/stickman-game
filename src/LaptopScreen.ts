@@ -1,49 +1,61 @@
-
-class Game {
-    private canvas: HTMLCanvasElement;
+class LaptopScreen {
 
     private gameObjects: GameObject[];
-    private laptopscreen: LaptopScreen;
+    private canvas: HTMLCanvasElement;
+    private minigame: Minigame;
 
-    // KeyListener so the user can give input
     private keyListener: KeyListener;
+    
+    private password: string[];
+    private passwordInput: string[];
 
+    
+    /**
+     * Constructs an object of this class.
+     * 
+     * @param canvas the Canvas element to render to
+     */
     public constructor(canvas: HTMLCanvasElement) {
         // Construct all of the canvas
         this.canvas = canvas;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        console.log(this.canvas.width, this.canvas.height);
 
+        console.log(this.canvas.width, this.canvas.height);
         this.setBackground();
 
+
+        this.keyListener = new KeyListener();
+
+        this.passwordInput = [];
+        this.password = ["a","b","c","1","2","3"];
+    
         // create an array with all the GameObjects
         this.gameObjects = [];
-        this.gameObjects.push(new Table(this.canvas));
-        this.gameObjects.push(new Laptop(this.canvas));
-        this.gameObjects.push(new CharacterSitting(this.canvas));
-
-        this.gameObjects.push(new Trashcan(this.canvas));
-        this.gameObjects.push(new Painting(this.canvas));
-        this.gameObjects.push(new Plant(this.canvas));
-
+        this.gameObjects.push(new XButton(this.canvas));
+        this.gameObjects.push(new ArrowButton(this.canvas));
+        
         // add an mouse event
         document.addEventListener("click", this.mouseHandler);
 
-        this.loop();
-    }
+        window.addEventListener("keypress", this.keyPress);
 
+        this.loop();
+    }        
+    
     /**
      * Method for the Game Loop
      */
     private loop = () => {
         this.draw();
+        const ctx = this.canvas.getContext("2d");
+        this.drawPassword(ctx);
 
         requestAnimationFrame(this.loop);
-    }
+    };
 
     private setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
+        document.body.style.backgroundImage = `url(./assets/img/laptopscreen.png)`;
     }
 
     /**
@@ -57,14 +69,36 @@ class Game {
             if (gameObject.hits(event.clientX, event.clientY)) {
                 if (gameObject.gameState === "unclicked"){
                     console.log(`clicked ${gameObject.getName()}`);
-                    if (gameObject.getName() === "laptop") {
-                        this.laptopscreen = new LaptopScreen(this.canvas);
+                    if (gameObject.getName() === "arrowbutton") {
+                        if (this.passwordInput.join("") === this.password.join("")) {
+                            const stickmanGame = new Game(
+                                document.getElementById("canvas") as HTMLCanvasElement
+                            );
+                            this.gameObjects = [];
+                        }
+                    } else if (gameObject.getName() === "xbutton") {
+                        this.minigame = new Minigame(this.canvas);
                         this.gameObjects = [];
                     }
                 }
             }
         });
     };
+
+    private keyPress = (ev: KeyboardEvent) => {
+        // TODO handle key pressed events
+        console.log(`Key ${ev.key} has been pressed`);
+        this.passwordInput.push(ev.key);
+        let indexes: number[] = [];
+        for (let i = 0; i < this.password.length; i++) {
+            if(ev.key === this.password[i]){
+            console.log("Correct");
+            indexes.push(i);
+            }
+        }
+        console.log(this.passwordInput);
+    }
+
 
     /**
      * Draws all the necessary elements to the canvas
@@ -74,6 +108,19 @@ class Game {
         // clear the canvas
         ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGame(ctx);
+    }
+
+    private drawPassword(ctx: CanvasRenderingContext2D) {
+        for (let i = 0; i < this.password.length; i++) {
+            this.writeTextToCanvas(
+                ctx,
+                this.passwordInput.join(""),
+                25,
+                616,
+                468
+            );
+        }
+    
     }
 
     /*
@@ -112,15 +159,12 @@ class Game {
         xCoordinate: number,
         yCoordinate: number,
         alignment: CanvasTextAlign = "center",
-        color: string = "red"
+        color: string = "black"
     ) {
         ctx.font = `${fontSize}px Minecraft`;
         ctx.fillStyle = color;
-        ctx.textAlign = alignment;
+        ctx.textAlign = "left";
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
 
 }
-
-
-

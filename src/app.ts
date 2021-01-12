@@ -1,6 +1,6 @@
 // Initialize the game after the DOM is loaded.
 let init = () => {
-    const KiwiWars = new Game(
+    const stickmanGame = new Game(
         document.getElementById("canvas") as HTMLCanvasElement
     );
 };

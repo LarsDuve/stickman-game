@@ -14,7 +14,7 @@ class Plant extends GameObject {
     }
 
     public move(canvas: HTMLCanvasElement) {
-        this.setXPos(this.getXPos() + 85);
+        this.setXPos(this.getXPos() - 85);
     }
 
 }

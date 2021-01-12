@@ -6,6 +6,7 @@ class GameObject {
     private xPos: number;
     private yPos: number;
     private image: HTMLImageElement;
+    public gameState: string;
 
     /**
      * Constructs an object of this class.
@@ -19,6 +20,7 @@ class GameObject {
         this.xPos = xPos;
         this.yPos = yPos;
         this.image = this.loadNewImage(source);
+        this.gameState = "unclicked";
     }
 
     /**
