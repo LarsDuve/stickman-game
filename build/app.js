@@ -18,9 +18,6 @@ class GameObject {
     setXPos(newValue) {
         this.xPos = newValue;
     }
-    setYPos(newValue) {
-        this.yPos = newValue;
-    }
     getImageWidth() {
         return this.image.width;
     }

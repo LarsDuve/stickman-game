@@ -60,15 +60,6 @@ class GameObject {
     }
 
     /**
-     * Sets the yPos.
-     * 
-     * @param newValue the new value
-     */
-    public setYPos(newValue: number) {
-        this.yPos = newValue;
-    }
-
-    /**
      * Returns the width of the image in pixels.
      * 
      * @returns the width of the image in pixels.
@@ -105,8 +96,6 @@ class GameObject {
             this.xPos,
             this.yPos
         );
-
-
     }
 
     /**
@@ -121,7 +110,6 @@ class GameObject {
             coordY >= this.yPos &&
             coordY <= this.yPos + this.getImageHeight();
     }
-
 
     /**
      * Loads an image so it doesn't flicker
