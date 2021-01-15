@@ -4,9 +4,9 @@ class personID extends GameObjects {
 
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
-        super("./assets/pictures/personID.png", xPos, yPos,"personID");
-        this._imageHeight = thisHeight;
-        this._imageWidth = thisWidth;
+        super("personID","./assets/imgPrivacy/personID.png", xPos, yPos);
+        thisHeight = this.getImageHeight();
+         thisWidth =  this.getImageHeight();
         
         }
 

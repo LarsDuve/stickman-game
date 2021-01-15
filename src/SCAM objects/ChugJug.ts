@@ -1,4 +1,4 @@
-/// <reference path="GameObjects.ts" />
+/// <reference path="../gameObjects.ts"/>
 
 class ChugJug extends GameObjects {
 

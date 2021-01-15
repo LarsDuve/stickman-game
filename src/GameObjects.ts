@@ -1,50 +1,54 @@
 class GameObjects {
-    protected _image: HTMLImageElement;
-    protected _xPos: number;
-    protected _yPos: number;
-    protected _imageWidth: number;
-    protected _imageHeight: number;
-    protected _name: string;
 
-    /** onstructor of the GameEntity class
-     * @param {string} imgSrc @param {number} xPos @param {number} yPos
-     * 
-     **/
+    protected xPos: number;
+    protected yPos: number;
+    protected image: HTMLImageElement;
+    protected name: string;
+    public clickObjectState: string;
 
-    public constructor(imgSrc: string, xPos:number, yPos:number,name: string)
+    constructor(name: string, imgSrc: string, xPos: number, yPos: number){
+        this.image = GameMaster.loadNewImage(imgSrc);
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.name = name;
+        this.clickObjectState = "unclicked";
+    }
 
-    {   this._name = name;
-        this._xPos = xPos;
-        this._yPos = yPos;
-        this._image = PrivacyRoom.loadNewImage(imgSrc);
-        this._imageWidth = this._image.width;
-        this._imageHeight = this.image.height;
+    public getXPos(): number {
+        return this.xPos;
+    }
 
+    public setXPos(newValue: number) {
+        this.xPos = newValue;
+    }
+
+    public getYPos(): number {
+        return this.yPos;
+    }
+
+    public getImage(): HTMLImageElement {
+        return this.image;
+    }
+
+    public getImageWidth(): number {
+        return this.image.width;
+    }
+
+    public getImageHeight(): number {
+        return this.image.height;
+    }
+
+    public getName(): string {
+        return this.name;
+    }
+
+    public move(canvas: HTMLCanvasElement) {
+
+    }
+
+    public draw(canvas: HTMLCanvasElement) {
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(this.image, this.xPos, this.yPos);
     }
     
- public get xPos(): number {
-     return this._xPos;
- }
- public get image(): HTMLImageElement {
-     return this._image;
- }
- public get yPos(): number{
-     return this._yPos;
- }
- public get imageHeight(): number{
-     return this._imageHeight;
- }
- public get imageWidth(): number{
-     return this._imageWidth;
- }
- public get name(): string{
-     return this._name;
- }
-  /**
-     * Draw the image to the given canvas
-     * @param {CanvasRenderingContext2D} ctx - context
-     */
-    public draw(ctx: CanvasRenderingContext2D) {
-        ctx.drawImage(this._image, this._xPos, this._yPos,this._imageWidth,this._imageHeight);
-    }
 }

@@ -1,4 +1,4 @@
-/// <reference path="GameObjects.ts" />
+/// <reference path="../gameObjects.ts"/>
 
 class GoodLink extends GameObjects {
 
@@ -7,8 +7,8 @@ class GoodLink extends GameObjects {
 
     constructor(xPos: number, yPos: number, link: number){
         super(`goodlink`, `./assets/img/good${link}.png`, xPos, yPos);
-        this.xVelocity = Game.randomNumber(-3, 3);
-        this.yVelocity = Game.randomNumber(-3, 3);
+        this.xVelocity = GameMaster.randomNumber(-3, 3);
+        this.yVelocity = GameMaster.randomNumber(-3, 3);
     }
 
     public move(canvas: HTMLCanvasElement) {

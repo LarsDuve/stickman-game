@@ -4,10 +4,9 @@ class blindsClickerPicture extends GameObjects {
 
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
-        super("./assets/pictures/BlindsClickerPicture.png", xPos, yPos,"blindsClickerPicture");
-        this._imageHeight = thisHeight;
-        this._imageWidth = thisWidth;
-        
+        super("blindsClickerPicture","./assets/imgPrivacy/BlindsClickerPicture.png", xPos, yPos);
+        thisHeight = this.getImageHeight();
+        thisWidth =  this.getImageHeight();
         }
 
 

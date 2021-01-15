@@ -19,17 +19,17 @@ class KeyListener
 
     // Some convenient key codes already defined here. If you need a specific
     // keycode, see:https://keycode.info/
-    public static readonly KEY_ENTER = 13;
-    public static readonly KEY_SHIFT = 16;
-    public static readonly KEY_CTRL  = 17;
-    public static readonly KEY_ALT   = 18;
-    public static readonly KEY_ESC   = 27;
-    public static readonly KEY_SPACE = 32;
-    public static readonly KEY_LEFT  = 37;
-    public static readonly KEY_UP    = 38;
-    public static readonly KEY_RIGHT = 39;
-    public static readonly KEY_DOWN  = 40;
-    public static readonly KEY_DEL   = 46;
+    // public static readonly KEY_ENTER = 13;
+    // public static readonly KEY_SHIFT = 16;
+    // public static readonly KEY_CTRL  = 17;
+    // public static readonly KEY_ALT   = 18;
+    // public static readonly KEY_ESC   = 27;
+    // public static readonly KEY_SPACE = 32;
+    // public static readonly KEY_LEFT  = 37;
+    // public static readonly KEY_UP    = 38;
+    // public static readonly KEY_RIGHT = 39;
+    // public static readonly KEY_DOWN  = 40;
+    // public static readonly KEY_DEL   = 46;
 
     public static readonly KEY_1     = 49;
     public static readonly KEY_2     = 50;

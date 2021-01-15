@@ -10,7 +10,7 @@
     },
     "include": [
         "src/**/*"
-    ],
+, "KeyListener.ts"    ],
     "exclude": [
         "node_modules",
         "**/*.spec.ts"

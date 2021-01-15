@@ -90,7 +90,7 @@ class Garage {
 
     private turnOnLights() {
         document.body.style.backgroundImage = `url(./assets/img/garageLightsOn.png)`;
-        this.gameObjects.push(new Laptop(850, 100), new Character(500, 200));
+        this.gameObjects.push(new LaptopCatfish(850, 100), new Character(500, 200));
     }
 
     private chugJug() {
@@ -100,8 +100,8 @@ class Garage {
     private startGame() {
         this.gameState = `start`;
         for (let i = 1; i < this.numberOfLinks + 1; i++) {
-            this.gameObjects.push(new GoodLink(Game.randomNumber(100, this.canvas.width - 400), Game.randomNumber(100, this.canvas.height - 150), i));
-            this.gameObjects.push(new BadLink(Game.randomNumber(100, this.canvas.width - 400), Game.randomNumber(100, this.canvas.height - 150), i));
+            this.gameObjects.push(new GoodLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
+            this.gameObjects.push(new BadLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
         }
     }
 

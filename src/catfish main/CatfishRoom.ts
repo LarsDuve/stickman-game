@@ -15,7 +15,7 @@ class ScamRoom {
 
         this.gameObjects = [];
 
-        this.gameObjects.push(new Laptop(450, 600), new Character(1600, 620));
+        this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620));
 
         this.status = `closed`;
 

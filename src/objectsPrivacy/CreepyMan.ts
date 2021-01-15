@@ -5,9 +5,9 @@ class CreepyMan extends GameObjects {
 
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
-        super("./assets/pictures/creepyMan.png", xPos, yPos,"CreepyMan");
-        this._imageHeight = thisHeight;
-        this._imageWidth = thisWidth;
+        super("CreepyMan","./assets/imgPrivacy/creepyMan.png", xPos, yPos);
+        thisHeight = this.getImageHeight();
+         thisWidth =  this.getImageHeight();
         
         }
 
