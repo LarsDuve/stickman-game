@@ -151,8 +151,9 @@ class GameMaster {
                         this.gameObjects = [];
                         this.gameObjects.pop();
                     }
+                    // ------------------------------------ password Room
 
-                    // scam room ---------------------------------------------------------
+                // scam room ---------------------------------------------------------
                     if (this.gameObjects[i].getName() == `lightswitch`) {
                         this.handleLightSwitch();
                     }
@@ -170,8 +171,6 @@ class GameMaster {
                     }
                     // ---------------------------------------------------------scam room
                     
-                // ------------------------------------ password Room
-
 
                 // Privacy Room ------------------------------------------------------------
 
@@ -225,7 +224,8 @@ class GameMaster {
                     }
 
                     // ------------------------------------------------------ Privacy Room
-                    //catfish--------------
+
+                // Catfish Room ------------------------------------------
                     if(this.gameObjects[i].getName() === `laptop`){
                         // this.openLaptop();
                         this.roomState = "LaptopCatfish"
@@ -246,12 +246,11 @@ class GameMaster {
                         // this.openLaptop();
                         this.roomState = "GoodSiteEnd"
                     }
-                    //--------------catfish
+                    // ------------------------------------- Catfish Room
                     
-                
+                }
             }
         }
-    }
     };
 
     private keyPress = (ev: KeyboardEvent) => {
@@ -283,6 +282,7 @@ class GameMaster {
             this.password = ["a","b","c","1","2","3"];
             this.keyListener = new KeyListener();
 
+            document.body.style.backgroundImage = `url(./assets/imgPassword/livingroom-empty.png)`
             this.gameObjects.push(new Table(380, 270));
             this.gameObjects.push(new LaptopPassword(650, 280));
             this.gameObjects.push(new CharacterSitting(543, 300));
@@ -290,11 +290,15 @@ class GameMaster {
             this.gameObjects.push(new Painting(360, 65));
             this.gameObjects.push(new Plant(1220, 340));
             this.roomState = "passwordBeginState";
+
         } else if (this.roomState === "clickedPasswordLaptop") {
+            document.body.style.backgroundImage = `url(./assets/imgPassword/laptopscreen.png)`
             this.gameObjects.push(new XButton(1400 ,80));
             this.gameObjects.push(new ArrowButton(879, 439));
             this.roomState = "passwordLaptopState";    
-        } else if (this.roomState === "passwordSearch") {        
+
+        } else if (this.roomState === "passwordSearch") {    
+            document.body.style.backgroundImage = `url(./assets/imgPassword/livingroom-empty.png)`    
             this.gameObjects.push(new Table(380, 270));
             this.gameObjects.push(new LaptopPassword(650, 280));
             this.gameObjects.push(new Chair(390, 350));
@@ -307,11 +311,6 @@ class GameMaster {
 
     }
     
-    private setBackgroundPassword() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
-
-    }
-
     /**
      * Writes text to the canvas
      * @param {string} text - Text to write

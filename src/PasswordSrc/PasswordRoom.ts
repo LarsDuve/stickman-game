@@ -2,7 +2,7 @@
 class Game {
     private canvas: HTMLCanvasElement;
 
-    private passwordGameObjects: GameObjects[];
+    private GameObjects: GameObjects[];
     private laptopscreen: LaptopScreen;
     private ctx: CanvasRenderingContext2D
 
@@ -55,20 +55,20 @@ class Game {
     public clickHandler = (event: MouseEvent) => {
         console.log(`xPos ${event.clientX}, yPos ${event.clientY}`);
 
-        for (let i = 0; i < this.passwordGameObjects.length; i++) {
+        for (let i = 0; i < this.GameObjects.length; i++) {
             // simple click detection
             if (
-                event.clientX >= this.passwordGameObjects[i].getXPos() &&
-                event.clientX < this.passwordGameObjects[i].getXPos() + this.passwordGameObjects[i].getImageWidth() &&
-                event.clientY >= this.passwordGameObjects[i].getYPos() &&
-                event.clientY <= this.passwordGameObjects[i].getYPos() + this.passwordGameObjects[i].getImageHeight()
+                event.clientX >= this.GameObjects[i].getXPos() &&
+                event.clientX < this.GameObjects[i].getXPos() + this.GameObjects[i].getImageWidth() &&
+                event.clientY >= this.GameObjects[i].getYPos() &&
+                event.clientY <= this.GameObjects[i].getYPos() + this.GameObjects[i].getImageHeight()
             ) {
-                console.log(`clicked ${this.passwordGameObjects[i].getName()}`)
-                if (this.passwordGameObjects[i].clickObjectState === "unclicked"){
-                    console.log(`clicked ${this.passwordGameObjects[i].getName()}`);
-                    if (this.passwordGameObjects[i].getName() === "laptop") {
+                console.log(`clicked ${this.GameObjects[i].getName()}`)
+                if (this.GameObjects[i].clickObjectState === "unclicked"){
+                    console.log(`clicked ${this.GameObjects[i].getName()}`);
+                    if (this.GameObjects[i].getName() === "laptop") {
                         this.laptopscreen = new LaptopScreen(this.canvas);
-                        this.passwordGameObjects = [];
+                        this.GameObjects = [];
                     }
                 }
             }
@@ -91,7 +91,7 @@ class Game {
      * @param ctx the context to render on.
      */
     private drawGame() {
-        this.passwordGameObjects.forEach(gameObject => {
+        this.GameObjects.forEach(gameObject => {
             gameObject.draw(this.canvas);
         });
     }

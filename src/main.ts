@@ -1,6 +1,6 @@
 // Initialize the game after the DOM is loaded.
 let init = () => {
-  const KiwiWars = new GameMaster (
+  const StickmanGame = new GameMaster (
     document.getElementById("canvas") as HTMLCanvasElement
   );
 };
