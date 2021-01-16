@@ -21,10 +21,10 @@ class GameMaster {
     public constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
-        this.counterForClicks = 0;
 
         this.gameObjects = [];
 
+        this.counterForClicks = 0;
         this.score = 0;
 
 
@@ -32,7 +32,7 @@ class GameMaster {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
 
-        this.gameState = `levelSelect`;
+        this.gameState = `password`;
         if (this.gameState === `levelSelect`) {
             this.levelSelector();
         }
@@ -366,7 +366,7 @@ private initiatePrivacyLevel() {
     }
     private levelSelector(){
         this.gameObjects.push(new houseLevelSelector(0,0,1920,1080));
-        this.gameObjects.push(new kitchenTop(923,108,10,10));
+        this.gameObjects.push(new kitchenTop(923,108,100,10));
         this.gameObjects.push(new livingRoomTop(375,80,10,1));
         
     }
