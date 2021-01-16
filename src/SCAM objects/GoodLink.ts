@@ -6,7 +6,7 @@ class GoodLink extends GameObjects {
     private yVelocity: number;
 
     constructor(xPos: number, yPos: number, link: number){
-        super(`goodlink`, `./assets/img/good${link}.png`, xPos, yPos);
+        super(`goodlink`, `./assets/imgSCAM/good${link}.png`, xPos, yPos);
         this.xVelocity = GameMaster.randomNumber(-3, 3);
         this.yVelocity = GameMaster.randomNumber(-3, 3);
     }

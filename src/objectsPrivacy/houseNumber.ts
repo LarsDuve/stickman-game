@@ -5,8 +5,8 @@ class houseNumber extends GameObjects {
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
         super("houseNumber","./assets/imgPrivacy/houseNumber.png", xPos, yPos);
-        thisHeight = this.getImageHeight();
-        thisWidth =  this.getImageHeight();
+        this.image.width = thisWidth;
+        this.image.height = thisHeight;
         }
 
 

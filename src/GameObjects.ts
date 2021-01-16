@@ -4,13 +4,19 @@ class GameObjects {
     protected yPos: number;
     protected image: HTMLImageElement;
     protected name: string;
+    protected imageWidth: number;
+    protected imageHeight: number;
     public clickObjectState: string;
+
 
     constructor(name: string, imgSrc: string, xPos: number, yPos: number){
         this.image = GameMaster.loadNewImage(imgSrc);
         this.xPos = xPos;
         this.yPos = yPos;
         this.name = name;
+        this.imageWidth = this.image.width;
+        this.imageHeight = this.image.height;
+
         this.clickObjectState = "unclicked";
     }
 
@@ -31,11 +37,11 @@ class GameObjects {
     }
 
     public getImageWidth(): number {
-        return this.image.width;
+        return this.imageWidth;
     }
 
     public getImageHeight(): number {
-        return this.image.height;
+        return this.imageHeight;
     }
 
     public getName(): string {

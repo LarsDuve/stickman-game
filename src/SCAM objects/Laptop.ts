@@ -3,6 +3,6 @@
 class LaptopPrivacy extends GameObjects {
 
     constructor(xPos: number, yPos: number){
-        super(`laptop`, `./assets/img/laptop-color.png`, xPos, yPos);
+        super(`laptop`, `./assets/imgSCAM/laptop-color.png`, xPos, yPos);
     }
 }

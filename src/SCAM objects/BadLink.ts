@@ -6,7 +6,7 @@ class BadLink extends GameObjects {
     private yVelocity: number;
 
     constructor(xPos: number, yPos: number, link: number){
-        super(`badlink`, `./assets/img/bad${link}.png`, xPos, yPos);
+        super(`badlink`, `./assets/imgSCAM/bad${link}.png`, xPos, yPos);
         this.xVelocity = GameMaster.randomNumber(-5, 5);
         this.yVelocity = GameMaster.randomNumber(-5, 5);
     }

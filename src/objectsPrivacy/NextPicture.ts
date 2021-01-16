@@ -5,8 +5,8 @@ class nextPicture extends GameObjects {
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
         super("nextPicture","./assets/imgPrivacy/Next.png", xPos, yPos);
-        thisHeight = this.getImageHeight();
-        thisWidth =  this.getImageHeight();
+        this.image.width = thisWidth;
+        this.image.height = thisHeight;
         
         }
 

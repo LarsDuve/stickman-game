@@ -1,10 +1,10 @@
 /// <reference path="../gameObjects.ts"/>
-class startScreen extends GameObjects {
+class DiningRoomTop extends GameObjects {
   
 
 
     constructor (xPos: number, yPos: number, thisWidth:number, thisHeight:number){
-        super("blindsClickerPicture","./assets/imgPrivacy/start-scene.png", xPos, yPos);
+        super("diningRoomTopPicture","./assets/img/DiningRoomTop.png", xPos, yPos);
         this.image.width = thisWidth;
         this.image.height = thisHeight;
         }
