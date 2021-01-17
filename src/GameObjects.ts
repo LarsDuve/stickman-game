@@ -4,8 +4,8 @@ class GameObjects {
     protected yPos: number;
     protected image: HTMLImageElement;
     protected name: string;
-    protected imageWidth: number;
-    protected imageHeight: number;
+    protected _imageWidth: number;
+    protected _imageHeight: number;
     public clickObjectState: string;
 
 
@@ -14,8 +14,7 @@ class GameObjects {
         this.xPos = xPos;
         this.yPos = yPos;
         this.name = name;
-        this.imageWidth = this.image.width;
-        this.imageHeight = this.image.height;
+        
 
         this.clickObjectState = "unclicked";
     }
@@ -37,11 +36,11 @@ class GameObjects {
     }
 
     public getImageWidth(): number {
-        return this.imageWidth;
+        return this.image.width;
     }
 
     public getImageHeight(): number {
-        return this.imageHeight;
+        return this.image.height;
     }
 
     public getName(): string {
@@ -54,7 +53,7 @@ class GameObjects {
 
     public draw(canvas: HTMLCanvasElement) {
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(this.image, this.xPos, this.yPos);
+        ctx.drawImage(this.image, this.xPos, this.yPos, this.getImageWidth(), this.getImageHeight());
     }
     
 }

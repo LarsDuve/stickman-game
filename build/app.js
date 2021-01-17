@@ -70,41 +70,43 @@ class GameMaster {
                                 this.handleBadLink();
                             }
                         }
-                        if (this.roomState === "beginState" && this.gameObjects[i].getName() === "blindsClickerPicture") {
-                            console.log("blinds geklikt");
-                            this.roomState = "blindsUpBeginState";
-                            console.log(this.roomState);
-                        }
-                        if (this.roomState === "wrongUploadState" && this.gameObjects[i].getName() === "blindsClickerPicture") {
-                            console.log("blinds geklikt");
-                            this.roomState = "blindsUpWrongState";
-                            console.log(this.roomState);
-                        }
-                        if (this.gameObjects[i].getName() == "Laptop") {
-                            console.log("laptop geklikt");
-                            this.roomState = "laptopState";
-                            console.log(this.roomState);
-                        }
-                        if (this.gameObjects[i].getName() == "nextPicture") {
-                            this.counterForClicks += 1;
-                            console.log("Next geklikt");
-                            this.roomState = "nextPictureState";
-                            console.log(this.roomState);
-                            if (this.counterForClicks === 3) {
-                                this.counterForClicks = 2;
+                        if (this.gameState === "privacy") {
+                            if (this.gameObjects[i].getName() === "blindsClickerPicture") {
+                                console.log("blinds geklikt");
+                                this.roomState = "blindsUpBeginState";
+                                console.log(this.roomState);
                             }
-                            console.log(this.counterForClicks);
-                        }
-                        if (this.gameObjects[i].getName() == "backPicture") {
-                            this.counterForClicks -= 1;
-                            if (this.counterForClicks === -1) {
-                                this.counterForClicks = 0;
+                            if (this.roomState === "wrongUploadState" && this.gameObjects[i].getName() === "blindsClickerPicture") {
+                                console.log("blinds geklikt");
+                                this.roomState = "blindsUpWrongState";
+                                console.log(this.roomState);
                             }
-                            console.log(this.counterForClicks);
-                        }
-                        if (this.gameObjects[i].getName() == "uploadPicture" && (this.counterForClicks === 0 || this.counterForClicks === 2)) {
-                            console.log("Upload geklikt");
-                            this.roomState = "wrongUploadState";
+                            if (this.gameObjects[i].getName() == "Laptop") {
+                                console.log("laptop geklikt");
+                                this.roomState = "laptopState";
+                                console.log(this.roomState);
+                            }
+                            if (this.gameObjects[i].getName() == "nextPicture") {
+                                this.counterForClicks += 1;
+                                console.log("Next geklikt");
+                                this.roomState = "nextPictureState";
+                                console.log(this.roomState);
+                                if (this.counterForClicks === 3) {
+                                    this.counterForClicks = 2;
+                                }
+                                console.log(this.counterForClicks);
+                            }
+                            if (this.gameObjects[i].getName() == "backPicture") {
+                                this.counterForClicks -= 1;
+                                if (this.counterForClicks === -1) {
+                                    this.counterForClicks = 0;
+                                }
+                                console.log(this.counterForClicks);
+                            }
+                            if (this.gameObjects[i].getName() == "uploadPicture" && (this.counterForClicks === 0 || this.counterForClicks === 2)) {
+                                console.log("Upload geklikt");
+                                this.roomState = "wrongUploadState";
+                            }
                         }
                         if (this.gameObjects[i].getName() === `laptop`) {
                             this.roomState = "LaptopCatfish";
@@ -143,58 +145,58 @@ class GameMaster {
         this.score = 0;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
-        this.gameState = `password`;
-        if (this.gameState === `levelSelect`) {
+        this.gameState = "garage";
+        if (this.gameState === "levelSelect") {
+            this.setBackground();
             this.levelSelector();
         }
-        if (this.gameState === `garage`) {
+        if (this.gameState === "garage") {
             this.initiateGarageLevel();
         }
-        if (this.gameState === `password`) {
+        if (this.gameState === "password") {
             this.initiatePasswordLevel();
         }
-        if (this.gameState === `privacy`) {
+        if (this.gameState === "privacy") {
+            this.setBackground();
             this.initiatePrivacyLevel();
+            this.roomState = "beginState";
         }
         window.addEventListener("keypress", this.keyPress);
         document.addEventListener("click", this.clickHandler);
         this.loop();
     }
     initiatePrivacyLevel() {
-        console.log(this.gameObjects);
-        for (let i = -100; i < this.gameObjects.length; i++) {
-            this.gameObjects.shift();
-        }
         console.log(this.gameState);
-        if (this.gameState === "laptopState") {
+        if (this.roomState === "laptopState") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             console.log("gamestate changed");
             this.laptopState();
         }
-        else if (this.gameState === "nextPictureState") {
+        else if (this.roomState === "nextPictureState") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.nextPictureState();
         }
-        else if (this.gameState === "wrongUploadState") {
+        else if (this.roomState === "wrongUploadState") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.setBackgroundPrivacy();
+            this.setBackground();
             this.wrongUploadState();
         }
-        else if (this.gameState === "blindsUpBeginState") {
+        else if (this.roomState === "blindsUpBeginState") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.setBackgroundPrivacy();
+            this.setBackground();
             this.blindsUpBeginState();
         }
-        else if (this.gameState === "blindsUpWrongState") {
+        else if (this.roomState === "blindsUpWrongState") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.setBackgroundPrivacy();
+            this.setBackground();
             this.blindsUpWrongState();
         }
-        else if (this.gameState === "StartScreen") {
+        else if (this.roomState === "StartScreen") {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.setBackgroundPrivacy();
+            this.setBackground();
             this.beginState();
         }
+        console.log(this.gameObjects);
     }
     initiatePasswordLevel() {
         this.passwordInput = [];
@@ -236,29 +238,34 @@ class GameMaster {
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
     levelSelector() {
-        this.gameObjects.push(new houseLevelSelector(0, 0, 1920, 1080));
-        this.gameObjects.push(new kitchenTop(923, 108, 100, 10));
-        this.gameObjects.push(new livingRoomTop(375, 80, 10, 1));
+        this.gameObjects.push(new kitchenTop(923, 108, 100, 50));
+        this.gameObjects.push(new livingRoomTop(375, 80, 100, 50));
     }
-    setBackgroundPrivacy() {
+    setBackground() {
         this.initialize();
     }
     initialize() {
         window.addEventListener('resize', this.resizeCanvas, false);
         this.resizeCanvas();
     }
-    redraw() {
-        const img = new Image();
-        img.src = "./assets/imgPrivacy/backgroundPrivacy.png";
-        this.ctx.drawImage(img, 0, 0);
-        this.ctx.strokeStyle = 'blue';
-        this.ctx.lineWidth = 5;
-        this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
-    }
     resizeCanvas() {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.redraw();
+    }
+    redraw() {
+        console.log(this.gameState);
+        const img = new Image();
+        if (this.gameState === "levelSelect") {
+            img.src = "./assets/img/house-top-down-view.png";
+        }
+        if (this.gameState === "privacy") {
+            img.src = "./assets/imgPrivacy/backgroundPrivacy.png";
+        }
+        this.ctx.drawImage(img, 0, 0);
+        this.ctx.strokeStyle = 'blue';
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
     }
     nextPictureState() {
         this.gameObjects.push(new LaptopScreenPrivacy(200, 50, 1300, 920));
@@ -494,8 +501,6 @@ class GameObjects {
         this.xPos = xPos;
         this.yPos = yPos;
         this.name = name;
-        this.imageWidth = this.image.width;
-        this.imageHeight = this.image.height;
         this.clickObjectState = "unclicked";
     }
     getXPos() {
@@ -511,10 +516,10 @@ class GameObjects {
         return this.image;
     }
     getImageWidth() {
-        return this.imageWidth;
+        return this.image.width;
     }
     getImageHeight() {
-        return this.imageHeight;
+        return this.image.height;
     }
     getName() {
         return this.name;
@@ -523,7 +528,7 @@ class GameObjects {
     }
     draw(canvas) {
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(this.image, this.xPos, this.yPos);
+        ctx.drawImage(this.image, this.xPos, this.yPos, this.getImageWidth(), this.getImageHeight());
     }
 }
 class KeyListener {
@@ -618,15 +623,15 @@ class houseLevelSelector extends GameObjects {
 class kitchenTop extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("kitchenTopPicture", "./assets/img/KitchenTop.png", xPos, yPos);
-        thisWidth = this.image.width;
-        thisHeight = this.image.height;
+        this.image.width = thisWidth;
+        this.image.height = thisHeight;
     }
 }
 class livingRoomTop extends GameObjects {
     constructor(xPos, yPos, thisWidth, thisHeight) {
         super("livingRoomTopPicture", "./assets/img/livingRoomTop.png", xPos, yPos);
-        thisWidth = this.image.width;
-        thisHeight = this.image.height;
+        this.image.width = thisWidth;
+        this.image.height = thisHeight;
     }
 }
 class startButton extends GameObjects {

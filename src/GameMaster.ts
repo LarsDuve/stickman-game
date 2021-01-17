@@ -30,20 +30,26 @@ class GameMaster {
 
         // create canvas
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.height = window.innerHeight;    	
 
-        this.gameState = `password`;
-        if (this.gameState === `levelSelect`) {
+        this.gameState = "garage";
+        
+        if (this.gameState === "levelSelect") {
+            this.setBackground();
             this.levelSelector();
+
         }
-        if (this.gameState === `garage`) {
+        if (this.gameState === "garage") {
             this.initiateGarageLevel();
         }
-        if (this.gameState === `password`) {
+        if (this.gameState ==="password") {
             this.initiatePasswordLevel();
         }
-        if (this.gameState === `privacy`) {
+        if (this.gameState === "privacy") {
+            this.setBackground();
             this.initiatePrivacyLevel();
+            this.roomState = "beginState";
+            
         }
 
         window.addEventListener("keypress", this.keyPress);
@@ -58,7 +64,6 @@ class GameMaster {
         this.draw();
         this.move(this.canvas);
         this.checkScore();
-
         requestAnimationFrame(this.loop);
     };
     
@@ -152,8 +157,9 @@ class GameMaster {
                     
 
                 // Privacy Room ------------------------------------------------------------
+                if (this.gameState === "privacy"){
 
-                    if (this.roomState === "beginState" && this.gameObjects[i].getName() === "blindsClickerPicture"){
+                    if (this.gameObjects[i].getName() === "blindsClickerPicture"){
                         console.log("blinds geklikt")
                         this.roomState = "blindsUpBeginState";
                         console.log(this.roomState);
@@ -201,6 +207,7 @@ class GameMaster {
                       console.log("Upload geklikt");
                       this.roomState = "wrongUploadState";                
                     }
+                }
 
                     // ------------------------------------------------------ Privacy Room
 
@@ -253,52 +260,50 @@ class GameMaster {
 
 
 private initiatePrivacyLevel() {
-    console.log(this.gameObjects);
+    
         // a loop that removes the first index of an array, don't adjust.
-        for (let i=-100; i<this.gameObjects.length; i++){
-          this.gameObjects.shift();
-        }
         console.log(this.gameState);
     
         
-        if (this.gameState === "laptopState"){
+        if (this.roomState === "laptopState"){
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           console.log("gamestate changed");
           this.laptopState();
           
           
         }
-        else if(this.gameState === "nextPictureState"){
+        else if(this.roomState=== "nextPictureState"){
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           this.nextPictureState();
         }
-        else if (this.gameState === "wrongUploadState"){
+        else if (this.roomState=== "wrongUploadState"){
           
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         // setBackgroundPrivacy must be first, it's the background.
-        this.setBackgroundPrivacy();
+        this.setBackground();
         this.wrongUploadState();
         
         }
-        else if (this.gameState === "blindsUpBeginState"){
+        else if (this.roomState === "blindsUpBeginState"){
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
          // setBackgroundPrivacy must be first, it's the background.
-          this.setBackgroundPrivacy();
+          this.setBackground();
           this.blindsUpBeginState();
         }
-        else if (this.gameState === "blindsUpWrongState"){
+        else if (this.roomState === "blindsUpWrongState"){
            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
          // setBackgroundPrivacy must be first, it's the background.
-          this.setBackgroundPrivacy();
+          this.setBackground();
           this.blindsUpWrongState();
         }
     
-        else if (this.gameState === "StartScreen") {
+        else if (this.roomState === "StartScreen") {
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           // setBackgroundPrivacy must be first, it's the background.
-          this.setBackgroundPrivacy();
+          this.setBackground();
           this.beginState();
         }
+        console.log(this.gameObjects);
 }
 
 
@@ -365,14 +370,13 @@ private initiatePrivacyLevel() {
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
     private levelSelector(){
-        this.gameObjects.push(new houseLevelSelector(0,0,1920,1080));
-        this.gameObjects.push(new kitchenTop(923,108,100,10));
-        this.gameObjects.push(new livingRoomTop(375,80,10,1));
+        this.gameObjects.push(new kitchenTop(923,108,100,50));
+        this.gameObjects.push(new livingRoomTop(375,80,100,50));
         
     }
   
 
-    private setBackgroundPrivacy() {
+    private setBackground() {
     
         // Start listening to resize events and draw canvas.
         this.initialize();
@@ -385,26 +389,36 @@ private initiatePrivacyLevel() {
             // Draw canvas border for the first time.
             this.resizeCanvas();
          }
+           // Runs each time the DOM window resize event fires.
+         // Resets the canvas dimensions to match window,
+         // then draws the new borders accordingly.
+         private resizeCanvas() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.redraw();
+        }
      
          // Display custom canvas. In this case it's a blue, 5 pixel 
          // border that resizes along with the browser window.
          private redraw() {
+             console.log(this.gameState);
+
             const img: HTMLImageElement = new Image();
-            img.src = "./assets/imgPrivacy/backgroundPrivacy.png";
+            if (this.gameState === "levelSelect")
+            {
+                img.src = "./assets/img/house-top-down-view.png";
+            }
+            if (this.gameState === "privacy"){
+                img.src = "./assets/imgPrivacy/backgroundPrivacy.png";
+            }
+           
             this.ctx.drawImage(img,0,0)
             this.ctx.strokeStyle = 'blue';
             this.ctx.lineWidth = 5;
             this.ctx.strokeRect(0, 0, window.innerWidth, window.innerHeight);
          }
      
-         // Runs each time the DOM window resize event fires.
-         // Resets the canvas dimensions to match window,
-         // then draws the new borders accordingly.
-         private resizeCanvas() {
-             this.canvas.width = window.innerWidth;
-             this.canvas.height = window.innerHeight;
-             this.redraw();
-         }
+       
 
     private nextPictureState() {
         this.gameObjects.push(new LaptopScreenPrivacy(200, 50, 1300, 920));
