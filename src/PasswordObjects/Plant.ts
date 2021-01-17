@@ -3,7 +3,7 @@
 class Plant extends GameObjects {
 
     constructor (xPos: number, yPos: number){
-        super("plant", "./assets/imgPassword/laptopPrivacy.png", xPos, yPos);
+        super("plant", "./assets/imgPassword/plant.png", xPos, yPos);
         }
 
     public move(canvas: HTMLCanvasElement) {

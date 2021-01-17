@@ -3,7 +3,7 @@
 class CharacterSitting extends GameObjects {
 
     constructor (xPos: number, yPos: number){
-        super("character-sitting", "./assets/imgPassword/laptopPrivacy.png", xPos, yPos);
+        super("character-sitting", "./assets/imgPassword/stickman-with-chair.png", xPos, yPos);
         
         }
 

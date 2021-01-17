@@ -3,7 +3,7 @@
 class LaptopPassword extends GameObjects {
 
     constructor (xPos: number, yPos: number){
-        super("laptop", "./assets/imgPassword/laptopPrivacy.png", xPos, yPos);
+        super("laptop-password", "./assets/imgPassword/laptop-password.png", xPos, yPos);
         }
 
 }

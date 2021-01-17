@@ -3,7 +3,7 @@
 class Trash extends GameObjects {
 
     constructor (xPos: number, yPos: number){
-        super("trash", "./assets/imgPassword/laptopPrivacy.png", xPos, yPos);        
+        super("trash", "./assets/imgPassword/trash.png", xPos, yPos);        
         }
 
 }

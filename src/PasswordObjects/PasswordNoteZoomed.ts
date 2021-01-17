@@ -3,7 +3,7 @@
 class PasswordNoteZoom extends GameObjects {
 
     constructor (xPos: number, yPos: number){
-        super("password-note-zoom", "./assets/imgPassword/laptopPrivacy.png", xPos, yPos);        
+        super("password-note-zoom", "./assets/imgPassword/note-zoom.png", xPos, yPos);        
         }
 
 }
