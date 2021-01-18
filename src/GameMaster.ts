@@ -26,7 +26,7 @@ class GameMaster {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;    	
 
-        this.gameState = "levelSelect"; 
+        this.gameState = "stickmanStartScreen"; 
         
 
         window.addEventListener("keypress", this.keyPress);
@@ -36,6 +36,11 @@ class GameMaster {
     }
 
     private loop = () => {
+        if(this.gameState === "stickmanStartScreen"){
+            this.gameObjects.push(new startScreen(0,0,1920,1080));
+            this.gameObjects.push(new startButton(600,400,400,200));
+
+        }
     //   console.log(this.counterForClicks);
          //a loop that removes the first index of an array, don't adjust.
     if (this.gameState === "levelSelect" || this.gameState ==="garage" || this.gameState ==="catfish" || this.gameState === "privacy" || this.gameState === "password"){
@@ -98,6 +103,9 @@ class GameMaster {
 
                 console.log(`clicked ${this.gameObjects[i].getName()}`)
                 if (this.gameObjects[i].clickObjectState === "unclicked") {
+                    if (this.gameObjects[i].getName()=== "startButton"){
+                        this.gameState = "levelSelect";
+                    }
                     if (this.gameObjects[i].getName()=== "diningRoomTopPicture"){
                         this.gameState = "password";
                         this.roomState = "passwordBeginState";
@@ -249,10 +257,8 @@ class GameMaster {
                         console.log("Upload geklikt");
                         this.gameState = "levelSelect";             
                     }
-                    if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyWrongUploadState"){
-                        console.log("Upload geklikt");
-                        this.roomState = "privacyCreepyManInsideState";       
-                    }
+                           
+                    
                     if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyBlindsUpWrongState"){
                         console.log("Upload geklikt");
                         this.roomState = "privacyCreepyManInsideBlindsUpState";       
@@ -268,6 +274,11 @@ class GameMaster {
                     }
                     if(this.gameObjects[i].getName() === "creepyManStanding"){
                         this.roomState = "creepyManClickedBlindsUpState";
+                    }
+                    if(this.roomState ===  "creepyManClickedBlindUpUnlockedDoorState"){
+                        if(this.gameObjects[i].getName() === "privacyDoor"){
+                            this.gameState = "levelSelect";
+                        }
                     }
                 }
 
@@ -376,15 +387,17 @@ class GameMaster {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.creepyManInsideBlindsUpState();
             this.gameObjects.push(new personalMistake(400,150,350,220));
+            this.roomState = "creepyManClickedBlindUpUnlockedDoorState";
             
         }
-        if (this.roomState === "creepyManClickedState"){
+        if (this.roomState === "creepyManClickedBlindUpUnlockedDoorState"){
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.creepyManInsideState();
+            this.creepyManInsideBlindsUpState();
             this.gameObjects.push(new personalMistake(400,150,350,220));
             
-            
         }
+        
+     
         console.log(this.gameObjects);
     }
 }
@@ -407,7 +420,6 @@ class GameMaster {
             } 
              if (this.roomState === "passwordEndState") {    
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.drawPasswordQuestText(this.ctx, this.canvas);
                 this.drawPasswordEnd();
         
             } 
@@ -452,12 +464,6 @@ class GameMaster {
         }
     }   
 
-    private drawPasswordQuestText(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-        ctx.font = `32px Calibri`;
-        ctx.fillStyle = "red";
-        ctx.fillText(`Look around the room for your password`, canvas.width / 2, 40);
-    }
-
     // Methods to draw all the scenarios
     private drawPasswordQuest() {
         this.gameObjects.push(new PasswordbackgroundQuest(0, 0));
@@ -487,7 +493,6 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new Trash(800, 545));
         this.gameObjects.push(new Trashcan(865, 550));
-        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
@@ -501,7 +506,6 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new PasswordNote(380, 95))
         this.gameObjects.push(new Painting(450, 65));
-        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
@@ -515,7 +519,6 @@ class GameMaster {
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Leaf(1320, 620));
         this.gameObjects.push(new Plant(1140, 360));
-        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
@@ -528,7 +531,6 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
-        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new PasswordNoteZoom(521, 95));
         this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
@@ -542,7 +544,6 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
-        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
