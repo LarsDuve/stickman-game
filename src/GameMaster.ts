@@ -63,6 +63,8 @@ class GameMaster {
     }
     if (this.gameState === "privacy") {
         this.initiatePrivacyLevel();
+        console.log(this.roomState);
+        
         
         
         
@@ -130,23 +132,18 @@ class GameMaster {
                         } 
                         else if (this.roomState = "passwordBeginState") {
                             if (this.gameObjects[i].getName() === "trashcan") {
-                                //this.roomState = "passwordEndState";
                                 this.roomState = "trashcanClicked";   
                                                 
                             } else if (this.gameObjects[i].getName() === "painting") {
-                                //this.roomState = "passwordEndState";
                                 this.roomState = "paintingClicked";
 
                             } else if (this.gameObjects[i].getName() === "plant") {
-                                //this.roomState = "passwordEndState";
                                 this.roomState = "plantClicked";
     
                             } else if (this.gameObjects[i].getName() === "password-note") {
-                                //this.roomState = "passwordEndState";
                                 this.roomState = "password-noteClicked";
     
                             } else if (this.gameObjects[i].getName() === "password-note-zoom") {
-                                //this.roomState = "passwordEndState";
                                 this.roomState = "password-note-zoomClicked";
 
                             } else if (this.gameObjects[i].getName() === "yes") {
@@ -157,7 +154,10 @@ class GameMaster {
                                 this.roomState = "passwordbackgroundQuestWin";
                                 this.gameObjects.push(new PasswordbackgroundQuestFail(0, 0));
                                 
-                            }    
+                            } else if (this.gameObjects[i].getName() == `arrow`) {
+                                this.gameObjects.splice(0, this.gameObjects.length);
+                                this.gameState = `levelSelect`;
+                            }
                         }
                     }
                     // ------------------------------------ password Room
@@ -189,30 +189,31 @@ class GameMaster {
 
                     // Privacy Room ------------------------------------------------------------
                     if (this.gameState === "privacy"){
-                        if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyInProgress"){
-                            console.log("blinds geklikt")
-                            this.roomState = "privacyBlindsUpBeginState";
+
+                        if (this.roomState === "privacyBlindsUpBeginState"){
+                            console.log("blinds geklikt");
+                            this.roomState =  "privacyBlindsUpBeginState";
                             console.log(this.gameState);
                             console.log(this.roomState);
                             
-            
                         }
-                        if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyBlindsUpBeginState"){
-                            console.log("blinds geklikt")
+                        else if (this.roomState === "privacyBlindsUpBeginState" && (this.gameObjects[i].getName() === "blindsClickerPicture") ){
+                            console.log("blinds geklikt");
                             this.roomState = "privacyInProgress";
                             console.log(this.gameState);
+                            
                         }
-                        if (this.roomState === "wrongUploadState" && this.gameObjects[i].getName() === "blindsClickerPicture"){
-                          console.log("blinds geklikt")
+                        else if (this.roomState === "wrongUploadState" && (this.gameObjects[i].getName() === "blindsClickerPicture")){
+                          console.log("blinds geklikt");
                           this.roomState = "privacyBlindsUpWrongState";
                           
                         }
-                        if (this.gameObjects[i].getName() == "privacyLaptop") {
+                        else if (this.gameObjects[i].getName() == "privacyLaptop") {
                             console.log("laptop geklikt");
                             this.roomState = "privacyLaptopState";
                            
                         } 
-                        if(this.gameObjects[i].getName() == "privacyNextPicture") {
+                        else if(this.gameObjects[i].getName() == "privacyNextPicture") {
                           // for every click on the next button, do countNextClicks + 1
                       
                         this.counterForClicks += 1;
@@ -228,12 +229,12 @@ class GameMaster {
                         
                     }
                     if (this.gameObjects[i].getName() == "backPicture") {
-                      this.counterForClicks -= 1;
+                        this.counterForClicks -= 1;
                       
-                      if (this.counterForClicks === -1) {
-                        this.counterForClicks = 0;
-                      }
-                      console.log(this.counterForClicks);
+                        if (this.counterForClicks === -1) {
+                            this.counterForClicks = 0;
+                        }
+                        console.log(this.counterForClicks);
             
                     }
                     if (this.gameObjects[i].getName() == "uploadPicture" && (this.counterForClicks === 0 || this.counterForClicks === 2)){
@@ -282,6 +283,10 @@ class GameMaster {
                         // this.gameState = "GoodSiteEnd"
                         this.goodSiteEnd(this.canvas);
                     }
+                    if (this.gameObjects[i].getName() == `arrow`) {
+                        this.gameObjects.splice(0, this.gameObjects.length);
+                        this.gameState = `levelSelect`;
+                    }
                 }
                     // ------------------------------------- Catfish Room
                     
@@ -292,34 +297,18 @@ class GameMaster {
     };
 
     private keyPress = (ev: KeyboardEvent) => {
-        console.log(`Key ${ev.key} has been pressed`);
-        this.passwordInput.push(ev.key);
-        let indexes: number[] = [];
-        for (let i = 0; i < this.password.length; i++) {
-            if(ev.key === this.password[i]){
-            indexes.push(i);
-            }
+        if (this.roomState === "passwordLaptopState") {
+            console.log(`Key ${ev.key} has been pressed`);
+            this.passwordInput.push(ev.key);
+            let indexes: number[] = [];
+            for (let i = 0; i < this.password.length; i++) {
+                if(ev.key === this.password[i]){
+                indexes.push(i);
+                }
+            }    
         }
-        console.log(this.passwordInput);
-        //if (this.roomState === "passwordLaptopState") {
-            this.drawPasswordInput(this.ctx, this.canvas);
-        //}
     }
-    
-    private drawPasswordInput(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-        ctx.font = `32px Calibri`;
-        ctx.fillStyle = "black";
-        ctx.fillText(this.passwordInput.join(""), 616, 468);
-    }
-
-    private drawPasswordQuestText(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-        ctx.font = `32px Calibri`;
-        ctx.fillStyle = "red";
-        ctx.fillText(`Look around the room for your password`, canvas.width / 2, 40);
-    }
-    
-
-
+        
     private initiatePrivacyLevel() {
     
         // a loop that removes the first index of an array, don't adjust.
@@ -331,7 +320,7 @@ class GameMaster {
           
                this.beginState();
          }
-        
+         
         if (this.roomState === "privacyLaptopState"){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
           console.log("gamestate changed");
@@ -350,7 +339,7 @@ class GameMaster {
         }
          if (this.roomState === "privacyBlindsUpBeginState"){
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-          this.blindsUpBeginState();
+        this.blindsUpBeginState();
         }
          if (this.roomState === "privacyBlindsUpWrongState"){
            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -370,11 +359,9 @@ class GameMaster {
     }
 }
 
+    // Initiates all the objects in the rooms of the password level
     private initiatePasswordLevel() {
         if (this.gameState = "password"){
-            // console.log(this.gameState);
-            // console.log(this.gameObjects);
-            // console.log(this.roomState);
             if (this.roomState === "passwordBeginState") {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 this.keyListener = new KeyListener();
@@ -382,7 +369,6 @@ class GameMaster {
                 this.password = ["a","b","c","1","2","3"];
                 this.drawPasswordBegin();
                 
-
             } 
             if (this.roomState === "passwordLaptopState") {
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -436,13 +422,18 @@ class GameMaster {
         }
     }   
 
+    private drawPasswordQuestText(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+        ctx.font = `32px Calibri`;
+        ctx.fillStyle = "red";
+        ctx.fillText(`Look around the room for your password`, canvas.width / 2, 40);
+    }
 
-
-
+    // Methods to draw all the scenarios
     private drawPasswordQuest() {
         this.gameObjects.push(new PasswordbackgroundQuest(0, 0));
         this.gameObjects.push(new No(450, 430));
         this.gameObjects.push(new Yes(820, 430));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private drawPasswordBegin() {
@@ -453,6 +444,7 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private moveTrashcan(){
@@ -465,6 +457,8 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new Trash(800, 545));
         this.gameObjects.push(new Trashcan(865, 550));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private movePainting(){
@@ -477,6 +471,8 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new PasswordNote(380, 95))
         this.gameObjects.push(new Painting(450, 65));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private movePlant(){
@@ -489,6 +485,8 @@ class GameMaster {
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Leaf(1320, 620));
         this.gameObjects.push(new Plant(1140, 360));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private showPasswordNote(){
@@ -500,7 +498,9 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new PasswordNoteZoom(521, 95));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
     
     private drawPasswordEnd() {
@@ -512,18 +512,16 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
-        this.drawGameover(this.ctx, this.canvas);
         this.drawPasswordQuestText(this.ctx, this.canvas);
-
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
 
     private drawPasswordLaptop() {
         this.gameObjects.push(new PasswordbackgroundLaptop(0, 0));
         this.gameObjects.push(new XButton(1400, 80));
         this.gameObjects.push(new ArrowButton(887, 447));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50));
     }
-
-    
 
     private levelSelector(){
         this.gameObjects.push(new houseLevelSelector(0,-20,1620,800))
@@ -532,7 +530,8 @@ class GameMaster {
         this.gameObjects.push(new DiningRoomTop(400,77,217,110));
         this.gameObjects.push(new garageTop(1056,440,113,187));
     }
-  // privacyroom methods
+
+    // privacyroom methods
     private nextPictureState() {
         this.gameObjects.push(new LaptopScreenPrivacy(200, 50, 1300, 920));
         if (this.counterForClicks === 0) {
@@ -713,7 +712,6 @@ class GameMaster {
             this.roomState = `start`;
             this.numberOfLinks = 4;
             for (let i = 1; i < this.numberOfLinks + 1; i++) {
-                console.log(`kanker`);
                 this.gameObjects.push(new GoodLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
                 this.gameObjects.push(new BadLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
             }
@@ -727,12 +725,12 @@ class GameMaster {
     private initiateKitchenLevel() {
         this.gameState = `catfishInProgress`;
         this.setBackgroundCatfish();
-        this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620));
+        this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620),new Arrow(10, 10 , 50, 50));
     }
 
     private setBackgroundCatfish() {
         // this.gameObjects.push(new BackgroundCatfish(0,0));
-        document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken-niet-trans.png)`;
     }
 
     private setBackgroundLaptop() {
@@ -772,6 +770,7 @@ class GameMaster {
         // this.setBackgroundSite
         this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
         this.gameObjects.push(new Website(`refresh`, `./assets/img/refresh.png`,270, 44));
+        // this.gameObjects.push(new Arrow(10, 10 , 50, 50))
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
@@ -787,6 +786,7 @@ class GameMaster {
         }
         // this.setBackgroundSite
         this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`,54, 44));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50))
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
@@ -801,6 +801,7 @@ class GameMaster {
         // this.setBackgroundSite
         this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
         this.gameObjects.push(new Website(`refresh-2`, `./assets/img/refresh-2.png`,270, 44));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50))
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
@@ -816,6 +817,7 @@ class GameMaster {
         }
         // this.setBackgroundSite
         this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`,54, 44));
+        this.gameObjects.push(new Arrow(10, 10 , 50, 50))
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }

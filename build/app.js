@@ -20,6 +20,7 @@ class GameMaster {
             }
             if (this.gameState === "privacy") {
                 this.initiatePrivacyLevel();
+                console.log(this.roomState);
             }
             this.draw();
             this.moveLinks();
@@ -85,6 +86,10 @@ class GameMaster {
                                     this.roomState = "passwordbackgroundQuestWin";
                                     this.gameObjects.push(new PasswordbackgroundQuestFail(0, 0));
                                 }
+                                else if (this.gameObjects[i].getName() == `arrow`) {
+                                    this.gameObjects.splice(0, this.gameObjects.length);
+                                    this.gameState = `levelSelect`;
+                                }
                             }
                         }
                         if (this.gameState === `GarageInProgress`) {
@@ -109,26 +114,26 @@ class GameMaster {
                             }
                         }
                         if (this.gameState === "privacy") {
-                            if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyInProgress") {
+                            if (this.roomState === "privacyBlindsUpBeginState") {
                                 console.log("blinds geklikt");
                                 this.roomState = "privacyBlindsUpBeginState";
                                 console.log(this.gameState);
                                 console.log(this.roomState);
                             }
-                            if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyBlindsUpBeginState") {
+                            else if (this.roomState === "privacyBlindsUpBeginState" && (this.gameObjects[i].getName() === "blindsClickerPicture")) {
                                 console.log("blinds geklikt");
                                 this.roomState = "privacyInProgress";
                                 console.log(this.gameState);
                             }
-                            if (this.roomState === "wrongUploadState" && this.gameObjects[i].getName() === "blindsClickerPicture") {
+                            else if (this.roomState === "wrongUploadState" && (this.gameObjects[i].getName() === "blindsClickerPicture")) {
                                 console.log("blinds geklikt");
                                 this.roomState = "privacyBlindsUpWrongState";
                             }
-                            if (this.gameObjects[i].getName() == "privacyLaptop") {
+                            else if (this.gameObjects[i].getName() == "privacyLaptop") {
                                 console.log("laptop geklikt");
                                 this.roomState = "privacyLaptopState";
                             }
-                            if (this.gameObjects[i].getName() == "privacyNextPicture") {
+                            else if (this.gameObjects[i].getName() == "privacyNextPicture") {
                                 this.counterForClicks += 1;
                                 console.log("Next geklikt");
                                 this.roomState = "privacyNextPictureState";
@@ -182,22 +187,26 @@ class GameMaster {
                             if (this.gameObjects[i].getName() === `refresh-2`) {
                                 this.goodSiteEnd(this.canvas);
                             }
+                            if (this.gameObjects[i].getName() == `arrow`) {
+                                this.gameObjects.splice(0, this.gameObjects.length);
+                                this.gameState = `levelSelect`;
+                            }
                         }
                     }
                 }
             }
         };
         this.keyPress = (ev) => {
-            console.log(`Key ${ev.key} has been pressed`);
-            this.passwordInput.push(ev.key);
-            let indexes = [];
-            for (let i = 0; i < this.password.length; i++) {
-                if (ev.key === this.password[i]) {
-                    indexes.push(i);
+            if (this.roomState === "passwordLaptopState") {
+                console.log(`Key ${ev.key} has been pressed`);
+                this.passwordInput.push(ev.key);
+                let indexes = [];
+                for (let i = 0; i < this.password.length; i++) {
+                    if (ev.key === this.password[i]) {
+                        indexes.push(i);
+                    }
                 }
             }
-            console.log(this.passwordInput);
-            this.drawPasswordInput(this.ctx, this.canvas);
         };
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
@@ -210,16 +219,6 @@ class GameMaster {
         window.addEventListener("keypress", this.keyPress);
         document.addEventListener("click", this.clickHandler);
         this.loop();
-    }
-    drawPasswordInput(ctx, canvas) {
-        ctx.font = `32px Calibri`;
-        ctx.fillStyle = "black";
-        ctx.fillText(this.passwordInput.join(""), 616, 468);
-    }
-    drawPasswordQuestText(ctx, canvas) {
-        ctx.font = `32px Calibri`;
-        ctx.fillStyle = "red";
-        ctx.fillText(`Look around the room for your password`, canvas.width / 2, 40);
     }
     initiatePrivacyLevel() {
         console.log(this.gameState);
@@ -312,10 +311,16 @@ class GameMaster {
             }
         }
     }
+    drawPasswordQuestText(ctx, canvas) {
+        ctx.font = `32px Calibri`;
+        ctx.fillStyle = "red";
+        ctx.fillText(`Look around the room for your password`, canvas.width / 2, 40);
+    }
     drawPasswordQuest() {
         this.gameObjects.push(new PasswordbackgroundQuest(0, 0));
         this.gameObjects.push(new No(450, 430));
         this.gameObjects.push(new Yes(820, 430));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     drawPasswordBegin() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -325,6 +330,7 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     moveTrashcan() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -336,6 +342,8 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new Trash(800, 545));
         this.gameObjects.push(new Trashcan(865, 550));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     movePainting() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -347,6 +355,8 @@ class GameMaster {
         this.gameObjects.push(new Plant(1220, 340));
         this.gameObjects.push(new PasswordNote(380, 95));
         this.gameObjects.push(new Painting(450, 65));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     movePlant() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -358,6 +368,8 @@ class GameMaster {
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Leaf(1320, 620));
         this.gameObjects.push(new Plant(1140, 360));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     showPasswordNote() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -368,7 +380,9 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
+        this.drawPasswordQuestText(this.ctx, this.canvas);
         this.gameObjects.push(new PasswordNoteZoom(521, 95));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     drawPasswordEnd() {
         this.gameObjects.push(new PasswordbackgroundRoom(0, 0));
@@ -379,13 +393,14 @@ class GameMaster {
         this.gameObjects.push(new Trashcan(780, 500));
         this.gameObjects.push(new Painting(360, 65));
         this.gameObjects.push(new Plant(1220, 340));
-        this.drawGameover(this.ctx, this.canvas);
         this.drawPasswordQuestText(this.ctx, this.canvas);
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     drawPasswordLaptop() {
         this.gameObjects.push(new PasswordbackgroundLaptop(0, 0));
         this.gameObjects.push(new XButton(1400, 80));
         this.gameObjects.push(new ArrowButton(887, 447));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     levelSelector() {
         this.gameObjects.push(new houseLevelSelector(0, -20, 1620, 800));
@@ -518,7 +533,6 @@ class GameMaster {
         this.roomState = `start`;
         this.numberOfLinks = 4;
         for (let i = 1; i < this.numberOfLinks + 1; i++) {
-            console.log(`kanker`);
             this.gameObjects.push(new GoodLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
             this.gameObjects.push(new BadLink(GameMaster.randomNumber(100, this.canvas.width - 400), GameMaster.randomNumber(100, this.canvas.height - 150), i));
         }
@@ -527,10 +541,10 @@ class GameMaster {
     initiateKitchenLevel() {
         this.gameState = `catfishInProgress`;
         this.setBackgroundCatfish();
-        this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620));
+        this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620), new Arrow(10, 10, 50, 50));
     }
     setBackgroundCatfish() {
-        document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken.png)`;
+        document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken-niet-trans.png)`;
     }
     setBackgroundLaptop() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -571,6 +585,7 @@ class GameMaster {
             this.gameObjects.shift();
         }
         this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`, 54, 44));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     goodSite(canvas) {
         console.log("verry nice");
@@ -579,6 +594,7 @@ class GameMaster {
         }
         this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`, 54, 44));
         this.gameObjects.push(new Website(`refresh-2`, `./assets/img/refresh-2.png`, 270, 44));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
         this.ctx.font = `102px Calibri`;
         this.ctx.fillStyle = "black";
         this.ctx.fillText(`Refresh de site `, 680, 120);
@@ -589,6 +605,7 @@ class GameMaster {
             this.gameObjects.shift();
         }
         this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`, 54, 44));
+        this.gameObjects.push(new Arrow(10, 10, 50, 50));
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -824,6 +841,11 @@ class Painting extends GameObjects {
         this.setXPos(this.getXPos() + 85);
     }
 }
+class PasswordCover extends GameObjects {
+    constructor(xPos, yPos) {
+        super("passwordcover", "./assets/imgPassword/passwordcover.png", xPos, yPos);
+    }
+}
 class PasswordNote extends GameObjects {
     constructor(xPos, yPos) {
         super("password-note", "./assets/imgPassword/note.png", xPos, yPos);
@@ -890,171 +912,6 @@ class XButton extends GameObjects {
 class Yes extends GameObjects {
     constructor(xPos, yPos) {
         super("yes", "./assets/imgPassword/yes.png", xPos, yPos);
-    }
-}
-class LaptopScreen {
-    constructor(canvas) {
-        this.loop = () => {
-            this.draw();
-            const ctx = this.canvas.getContext("2d");
-            this.drawPassword(ctx);
-            requestAnimationFrame(this.loop);
-        };
-        this.clickHandler = (event) => {
-            console.log(`xPos ${event.clientX}, yPos ${event.clientY}`);
-            for (let i = 0; i < this.gameObjects.length; i++) {
-                if (event.clientX >= this.gameObjects[i].getXPos() &&
-                    event.clientX < this.gameObjects[i].getXPos() + this.gameObjects[i].getImageWidth() &&
-                    event.clientY >= this.gameObjects[i].getYPos() &&
-                    event.clientY <= this.gameObjects[i].getYPos() + this.gameObjects[i].getImageHeight()) {
-                    console.log(`clicked ${this.gameObjects[i].getName()}`);
-                    if (this.gameObjects[i].clickObjectState === "unclicked") {
-                        console.log(`clicked ${this.gameObjects[i].getName()}`);
-                        if (this.gameObjects[i].getName() === "arrowbutton") {
-                            if (this.passwordInput.join("") === this.password.join("")) {
-                                const stickmanGame = new Game(document.getElementById("canvas"));
-                                this.gameObjects = [];
-                            }
-                        }
-                        else if (this.gameObjects[i].getName() === "xbutton") {
-                            this.minigame = new Minigame(this.canvas);
-                            this.gameObjects = [];
-                        }
-                    }
-                }
-            }
-        };
-        this.keyPress = (ev) => {
-            console.log(`Key ${ev.key} has been pressed`);
-            this.passwordInput.push(ev.key);
-            let indexes = [];
-            for (let i = 0; i < this.password.length; i++) {
-                if (ev.key === this.password[i]) {
-                    console.log("Correct");
-                    indexes.push(i);
-                }
-            }
-            console.log(this.passwordInput);
-        };
-        this.canvas = canvas;
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        console.log(this.canvas.width, this.canvas.height);
-        this.setBackground();
-        this.keyListener = new KeyListener();
-        this.passwordInput = [];
-        this.password = ["a", "b", "c", "1", "2", "3"];
-        document.addEventListener("click", this.clickHandler);
-        window.addEventListener("keypress", this.keyPress);
-        this.loop();
-    }
-    name() {
-    }
-    setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/laptopscreen.png)`;
-    }
-    draw() {
-        const ctx = this.canvas.getContext("2d");
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGame();
-    }
-    drawPassword(ctx) {
-        for (let i = 0; i < this.password.length; i++) {
-            this.writeTextToCanvas(ctx, this.passwordInput.join(""), 25, 616, 468);
-        }
-        this.writeTextToCanvas(ctx, "Tip: Misschien heb je je wachtwoord ergens achter verstopt", 19, 530, 500);
-    }
-    drawGame() {
-        this.gameObjects.forEach(gameObject => {
-            gameObject.draw(this.canvas);
-        });
-    }
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "black") {
-        ctx.font = `${fontSize}px Minecraft`;
-        ctx.fillStyle = color;
-        ctx.textAlign = "left";
-        ctx.fillText(text, xCoordinate, yCoordinate);
-    }
-}
-class Minigame {
-    constructor(canvas) {
-        this.loop = () => {
-            this.draw();
-            requestAnimationFrame(this.loop);
-        };
-        this.canvas = canvas;
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        console.log(this.canvas.width, this.canvas.height);
-        this.loop();
-    }
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGame();
-    }
-    drawGame() {
-        this.gameObjects.forEach(gameObject => {
-            gameObject.draw(this.canvas);
-        });
-    }
-}
-class Game {
-    constructor(canvas) {
-        this.loop = () => {
-            this.draw();
-            requestAnimationFrame(this.loop);
-        };
-        this.clickHandler = (event) => {
-            console.log(`xPos ${event.clientX}, yPos ${event.clientY}`);
-            for (let i = 0; i < this.GameObjects.length; i++) {
-                if (event.clientX >= this.GameObjects[i].getXPos() &&
-                    event.clientX < this.GameObjects[i].getXPos() + this.GameObjects[i].getImageWidth() &&
-                    event.clientY >= this.GameObjects[i].getYPos() &&
-                    event.clientY <= this.GameObjects[i].getYPos() + this.GameObjects[i].getImageHeight()) {
-                    console.log(`clicked ${this.GameObjects[i].getName()}`);
-                    if (this.GameObjects[i].clickObjectState === "unclicked") {
-                        console.log(`clicked ${this.GameObjects[i].getName()}`);
-                        if (this.GameObjects[i].getName() === "laptop") {
-                            this.laptopscreen = new LaptopScreen(this.canvas);
-                            this.GameObjects = [];
-                        }
-                    }
-                }
-            }
-        };
-        this.canvas = canvas;
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        console.log(this.canvas.width, this.canvas.height);
-        this.setBackground();
-        this.GameObjects = [];
-        this.GameObjects.push(new Table(380, 270));
-        this.GameObjects.push(new LaptopPassword(650, 280));
-        this.GameObjects.push(new CharacterSitting(543, 300));
-        this.GameObjects.push(new Trashcan(780, 500));
-        this.GameObjects.push(new Painting(360, 65));
-        this.GameObjects.push(new Plant(1220, 340));
-        document.addEventListener("click", this.clickHandler);
-        this.loop();
-    }
-    setBackground() {
-        document.body.style.backgroundImage = `url(./assets/img/livingroom-empty.png)`;
-    }
-    draw() {
-        const ctx = this.canvas.getContext("2d");
-        ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGame();
-    }
-    drawGame() {
-        this.GameObjects.forEach(gameObject => {
-            gameObject.draw(this.canvas);
-        });
-    }
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
-        ctx.font = `${fontSize}px Minecraft`;
-        ctx.fillStyle = color;
-        ctx.textAlign = alignment;
-        ctx.fillText(text, xCoordinate, yCoordinate);
     }
 }
 class Garage {
