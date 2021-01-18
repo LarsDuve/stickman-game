@@ -77,6 +77,9 @@ class GameMaster {
                                 if (this.passwordInput.join("") === this.password.join("")) {
                                     this.roomState = "passwordFinalState";
                                 }
+                                else {
+                                    this.gameObjects.push(new PasswordIncorrect(600, 500));
+                                }
                             }
                             else if (this.roomState = "passwordBeginState") {
                                 if (this.gameObjects[i].getName() === "trashcan") {
@@ -891,6 +894,11 @@ class Painting extends GameObjects {
 class PasswordCover extends GameObjects {
     constructor(xPos, yPos) {
         super("passwordcover", "./assets/imgPassword/passwordcover.png", xPos, yPos);
+    }
+}
+class PasswordIncorrect extends GameObjects {
+    constructor(xPos, yPos) {
+        super("password-incorrect", "./assets/imgPassword/password-incorrect.png", xPos, yPos);
     }
 }
 class PasswordNote extends GameObjects {

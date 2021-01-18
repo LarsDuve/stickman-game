@@ -151,6 +151,8 @@ class GameMaster {
                         else if (this.gameObjects[i].getName() === "arrowbutton") {
                             if (this.passwordInput.join("") === this.password.join("")) {
                                 this.roomState = "passwordFinalState";
+                            } else {
+                                this.gameObjects.push(new PasswordIncorrect(600, 500))
                             }
                             
                         } 
