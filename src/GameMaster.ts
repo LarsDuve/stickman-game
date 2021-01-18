@@ -1,3 +1,5 @@
+//Game made by Pedro Baaijens, Lars Duvekot, Luke van Overbeeke and Senna van Raffen
+
 class GameMaster {
     private gameObjects: GameObjects[];
     private gameState: string;
