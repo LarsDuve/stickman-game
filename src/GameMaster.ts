@@ -20,13 +20,29 @@ class GameMaster {
 
         this.counterForClicks = 0;
         this.score = 0;
-
+        
 
         // create canvas
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;    	
 
         this.gameState = "stickmanStartScreen"; 
+        
+        
+        const myAudio = new Audio('assets/audio/jazzMusic.mp3'); 
+        if (typeof myAudio.loop == 'boolean')
+            {
+          myAudio.loop = true;
+            }
+            else
+        {
+         myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+            }, false);
+            }
+        myAudio.play();
+        
         
 
         window.addEventListener("keypress", this.keyPress);
@@ -36,6 +52,7 @@ class GameMaster {
     }
 
     private loop = () => {
+        
         if(this.gameState === "stickmanStartScreen"){
             this.gameObjects.push(new startScreen(0,0,1920,1080));
             this.gameObjects.push(new startButton(600,400,400,200));

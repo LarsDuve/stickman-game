@@ -234,6 +234,17 @@ class GameMaster {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.gameState = "stickmanStartScreen";
+        const myAudio = new Audio('assets/audio/jazzMusic.mp3');
+        if (typeof myAudio.loop == 'boolean') {
+            myAudio.loop = true;
+        }
+        else {
+            myAudio.addEventListener('ended', function () {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+        }
+        myAudio.play();
         window.addEventListener("keypress", this.keyPress);
         document.addEventListener("click", this.clickHandler);
         this.loop();
