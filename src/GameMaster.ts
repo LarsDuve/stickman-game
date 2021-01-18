@@ -31,19 +31,7 @@ class GameMaster {
         this.gameState = "stickmanStartScreen"; 
         
         
-        const myAudio = new Audio('assets/audio/jazzMusic.mp3'); 
-        if (typeof myAudio.loop == 'boolean')
-            {
-          myAudio.loop = true;
-            }
-            else
-        {
-         myAudio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-            }, false);
-            }
-        myAudio.play();
+        
         
         
 
@@ -124,6 +112,22 @@ class GameMaster {
                 if (this.gameObjects[i].clickObjectState === "unclicked") {
                     if (this.gameObjects[i].getName()=== "startButton"){
                         this.gameState = "levelSelect";
+                        const myAudio = new Audio('assets/audio/jazzMusic.mp3'); 
+        if (typeof myAudio.loop == 'boolean')
+            {
+          myAudio.loop = true;
+          
+            }
+            else
+        {
+         myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+        
+            }, false);
+            }
+        myAudio.volume = 0.008;
+        myAudio.play();
                     }
                     if (this.gameObjects[i].getName()=== "diningRoomTopPicture"){
                         this.gameState = "password";
