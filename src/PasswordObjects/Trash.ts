@@ -6,4 +6,5 @@ class Trash extends GameObjects {
         super("trash", "./assets/imgPassword/trash.png", xPos, yPos);        
         }
 
+        
 }

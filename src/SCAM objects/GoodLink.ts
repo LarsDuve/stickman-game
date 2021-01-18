@@ -11,7 +11,7 @@ class GoodLink extends GameObjects {
         this.yVelocity = GameMaster.randomNumber(-3, 3);
     }
 
-    public move(canvas: HTMLCanvasElement) {
+    public moveLinks(canvas: HTMLCanvasElement) {
         this.xPos += this.xVelocity;
         this.yPos += this.yVelocity;
 

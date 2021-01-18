@@ -11,7 +11,7 @@ class BadLink extends GameObjects {
         this.yVelocity = GameMaster.randomNumber(-5, 5);
     }
 
-    public move(canvas: HTMLCanvasElement) {
+    public moveLinks(canvas: HTMLCanvasElement) {
         this.xPos += this.xVelocity;
         this.yPos += this.yVelocity;
 

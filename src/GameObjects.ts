@@ -51,6 +51,10 @@ class GameObjects {
 
     }
 
+    public moveLinks(canvas: HTMLCanvasElement) {
+
+    }
+
     public draw(canvas: HTMLCanvasElement) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(this.image, this.xPos, this.yPos, this.getImageWidth(), this.getImageHeight());

@@ -3,7 +3,7 @@
 class Chair extends GameObjects {
     
     constructor (xPos: number, yPos: number){
-        super("chair", "./assets/imgPassword/arrowbutton.png", xPos, yPos);        
+        super("chair", "./assets/imgPassword/chair.png", xPos, yPos);        
         }
 
 
