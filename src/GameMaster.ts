@@ -190,20 +190,20 @@ class GameMaster {
                     // Privacy Room ------------------------------------------------------------
                     if (this.gameState === "privacy"){
 
-                        if (this.roomState === "privacyBlindsUpBeginState"){
+                        if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyInProgress"){
                             console.log("blinds geklikt");
-                            this.roomState =  "privacyBlindsUpBeginState";
+                            this.roomState = "privacyBlindsUpBeginState";
                             console.log(this.gameState);
                             console.log(this.roomState);
                             
                         }
-                        else if (this.roomState === "privacyBlindsUpBeginState" && (this.gameObjects[i].getName() === "blindsClickerPicture") ){
+                        else if (this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyBlindsUpBeginState" ){
                             console.log("blinds geklikt");
                             this.roomState = "privacyInProgress";
                             console.log(this.gameState);
                             
                         }
-                        else if (this.roomState === "wrongUploadState" && (this.gameObjects[i].getName() === "blindsClickerPicture")){
+                        else if ( this.gameObjects[i].getName() === "blindsClickerPicture" && this.roomState === "privacyWrongUploadState" ){
                           console.log("blinds geklikt");
                           this.roomState = "privacyBlindsUpWrongState";
                           
@@ -237,25 +237,37 @@ class GameMaster {
                         console.log(this.counterForClicks);
             
                     }
-                    if (this.gameObjects[i].getName() == "uploadPicture" && (this.counterForClicks === 0 || this.counterForClicks === 2)){
+                    if (this.gameObjects[i].getName() === "uploadPicture" && (this.counterForClicks === 0 || this.counterForClicks === 2)){
                       console.log("Upload geklikt");
                       this.roomState = "privacyWrongUploadState";                
                     }
-                    if (this.gameObjects[i].getName() == "uploadPicture" && this.counterForClicks === 1){
+                    if (this.gameObjects[i].getName() === "uploadPicture" && this.counterForClicks === 1){
                         console.log("Upload geklikt");
                         this.roomState = "privacyGoodUploadState";                
                     }
-                    if (this.gameObjects[i].getName() == "privacyDoor" && this.roomState === "privacyGoodUploadState"){
+                    if (this.gameObjects[i].getName() ==="privacyDoor" && this.roomState === "privacyGoodUploadState"){
                         console.log("Upload geklikt");
                         this.gameState = "levelSelect";             
                     }
-                    if (this.gameObjects[i].getName() == "privacyDoor" && (this.roomState === "privacyWrongUploadState" || this.roomState === "privacyBlindsUpWrongState")){
+                    if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyWrongUploadState"){
                         console.log("Upload geklikt");
                         this.roomState = "privacyCreepyManInsideState";       
                     }
-                    if (this.gameObjects[i].getName() == "privacyDoor" && (this.roomState === "privacyInProgress" || this.roomState === "privacyBlindsUpBeginState")){
+                    if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyBlindsUpWrongState"){
                         console.log("Upload geklikt");
-                        this.gameState = "levelSelect";             
+                        this.roomState = "privacyCreepyManInsideBlindsUpState";       
+                    }
+
+                    
+                    if (this.gameObjects[i].getName() === "privacyDoor" && (this.roomState === "privacyInProgress" || this.roomState === "privacyBlindsUpBeginState")){
+                        console.log("Upload geklikt");
+                        this.roomState = "levelSelect";             
+                    }
+                    if(this.gameObjects[i].getName() === "creepyManStanding"){
+                        this.roomState = "creepyManClickedState";
+                    }
+                    if(this.gameObjects[i].getName() === "creepyManStanding"){
+                        this.roomState = "creepyManClickedBlindsUpState";
                     }
                 }
 
@@ -354,6 +366,24 @@ class GameMaster {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.creepyManInsideState();
 
+        }
+        if (this.roomState === "privacyCreepyManInsideBlindsUpState"){
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.creepyManInsideBlindsUpState();
+
+        }
+        if (this.roomState === "creepyManClickedBlindsUpState"){
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.creepyManInsideBlindsUpState();
+            this.gameObjects.push(new personalMistake(400,150,350,220));
+            
+        }
+        if (this.roomState === "creepyManClickedState"){
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.creepyManInsideState();
+            this.gameObjects.push(new personalMistake(400,150,350,220));
+            
+            
         }
         console.log(this.gameObjects);
     }
@@ -524,6 +554,7 @@ class GameMaster {
     }
 
     private levelSelector(){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.gameObjects.push(new houseLevelSelector(0,-20,1620,800))
         this.gameObjects.push(new kitchenTop(960,88,220,93));
         this.gameObjects.push(new livingRoomTop(370,389,107,200));
@@ -532,6 +563,7 @@ class GameMaster {
     }
 
     // privacyroom methods
+    
     private nextPictureState() {
         this.gameObjects.push(new LaptopScreenPrivacy(200, 50, 1300, 920));
         if (this.counterForClicks === 0) {
@@ -604,10 +636,18 @@ class GameMaster {
         this.gameObjects.push(new privacyBackground(0,0,1620,800));
         this.gameObjects.push(new blindsClickerPicture(640, 40, 50, 300));
         this.gameObjects.push(new Laptop(850, 230, 200, 200));
-        this.gameObjects.push(new CreepyManStanding(100, 120, 200, 300));
         this.gameObjects.push(new blindsPicture(355, 40, 290, 330));
         this.gameObjects.push(new privacyDoor(80,90,130,550));
+        this.gameObjects.push(new CreepyManStanding(200, 200, 300, 500));
         
+    }
+    private creepyManInsideBlindsUpState(){
+        this.gameObjects.push(new privacyBackground(0,0,1620,800));
+        this.gameObjects.push(new blindsClickerPicture(640, 40, 50, 300));
+        this.gameObjects.push(new Laptop(850, 230, 200, 200));
+        this.gameObjects.push(new blindsUpPicture(355, 22, 300, 300));
+        this.gameObjects.push(new privacyDoor(80,90,130,550));
+        this.gameObjects.push(new CreepyManStanding(200, 200, 300, 500));
     }
  
 
@@ -728,23 +768,25 @@ class GameMaster {
         this.gameObjects.push(new LaptopCatfish(450, 600), new CharacterCatfish(1600, 620),new Arrow(10, 10 , 50, 50));
     }
 
+
     private setBackgroundCatfish() {
-        // this.gameObjects.push(new BackgroundCatfish(0,0));
-        document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken-niet-trans.png)`;
+        this.gameObjects.push(new BackgroundCatfish(0,0));
+        // document.body.style.backgroundImage = `url(./assets/imgCatfish/keuken-niet-trans.png)`;
     }
 
     private setBackgroundLaptop() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        // this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
-        document.body.style.backgroundImage = `url(./assets/imgCatfish/Laptopscherm.png)`;
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
+        // document.body.style.backgroundImage = `url(./assets/imgCatfish/Laptopscherm.png)`;
     }
     private setBackgroundSite() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        document.body.style.backgroundImage = `url(./assets/imgCatfish/Laptopscherm.png)`;
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
+        // document.body.style.backgroundImage = `url(./assets/imgCatfish/Laptopscherm.png)`;
     }
     private laptop(canvas:HTMLCanvasElement){
         // for (let i = -100; i < this.gameObjects.length; i++) {
-        // this.gameObjects.shift();
+        //     this.gameObjects.shift();
         // }
         this.setBackgroundLaptop();
         this.gameObjects.push(new Website(`Website-1`, `./assets/imgCatfish/chat-1.png`,100, 90));
@@ -768,6 +810,7 @@ class GameMaster {
             this.gameObjects.shift();
         }
         // this.setBackgroundSite
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
         this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
         this.gameObjects.push(new Website(`refresh`, `./assets/img/refresh.png`,270, 44));
         // this.gameObjects.push(new Arrow(10, 10 , 50, 50))
@@ -785,13 +828,13 @@ class GameMaster {
             this.gameObjects.shift();
         }
         // this.setBackgroundSite
-        this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`,54, 44));
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
         this.gameObjects.push(new Arrow(10, 10 , 50, 50))
+        this.gameObjects.push(new Website(`blut`, `./assets/img/blut.png`,54, 44));
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
     }
-
     private goodSite(canvas:HTMLCanvasElement){
         console.log("verry nice");
         // this.setBackgroundSite
@@ -799,9 +842,10 @@ class GameMaster {
             this.gameObjects.shift();
         }
         // this.setBackgroundSite
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
         this.gameObjects.push(new Website(`bankrekening`, `./assets/img/bankrekening.png`,54, 44));
         this.gameObjects.push(new Website(`refresh-2`, `./assets/img/refresh-2.png`,270, 44));
-        this.gameObjects.push(new Arrow(10, 10 , 50, 50))
+       
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
@@ -816,8 +860,9 @@ class GameMaster {
             this.gameObjects.shift();
         }
         // this.setBackgroundSite
-        this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`,54, 44));
+        this.gameObjects.push(new BackgroundLaptopCatfish(0,0));
         this.gameObjects.push(new Arrow(10, 10 , 50, 50))
+        this.gameObjects.push(new Website(`rijk`, `./assets/img/rijk.png`,54, 44));
         // for (let index = 0; index < this.gameObjects.length; index++) {
         //     this.gameObjects[index].draw(canvas);
         // }
