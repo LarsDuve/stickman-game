@@ -41,33 +41,30 @@ class GameMaster {
                     console.log(`clicked ${this.gameObjects[i].getName()}`);
                     if (this.gameObjects[i].clickObjectState === "unclicked") {
                         if (this.gameObjects[i].getName() === "startButton") {
-                            this.gameState = "levelSelect";
                             const myAudio = new Audio('assets/audio/jazzMusic.mp3');
-                            if (typeof myAudio.loop == 'boolean') {
-                                myAudio.loop = true;
-                            }
-                            else {
-                                myAudio.addEventListener('ended', function () {
-                                    this.currentTime = 0;
-                                    this.play();
-                                }, false);
-                            }
-                            myAudio.volume = 0.008;
+                            myAudio.addEventListener('ended', function () {
+                                this.currentTime = 0;
+                                this.play();
+                            }, false);
+                            myAudio.volume = 0.004;
                             myAudio.play();
+                            this.gameState = "levelSelect";
                         }
-                        if (this.gameObjects[i].getName() === "diningRoomTopPicture") {
-                            this.gameState = "password";
-                            this.roomState = "passwordBeginState";
-                        }
-                        if (this.gameObjects[i].getName() === "livingRoomTopPicture") {
-                            this.gameState = "privacy";
-                            this.roomState = "privacyInProgress";
-                        }
-                        if (this.gameObjects[i].getName() === "kitchenTopPicture") {
-                            this.gameState = "catfish";
-                        }
-                        if (this.gameObjects[i].getName() === "garageTopPicture") {
-                            this.gameState = "garage";
+                        if (this.gameState === "levelSelect") {
+                            if (this.gameObjects[i].getName() === "diningRoomTopPicture") {
+                                this.gameState = "password";
+                                this.roomState = "passwordBeginState";
+                            }
+                            if (this.gameObjects[i].getName() === "livingRoomTopPicture") {
+                                this.gameState = "privacy";
+                                this.roomState = "privacyInProgress";
+                            }
+                            if (this.gameObjects[i].getName() === "kitchenTopPicture") {
+                                this.gameState = "catfish";
+                            }
+                            if (this.gameObjects[i].getName() === "garageTopPicture") {
+                                this.gameState = "garage";
+                            }
                         }
                         if (this.gameState === "password") {
                             if (this.gameObjects[i].getName() === "laptop-password") {
@@ -178,6 +175,10 @@ class GameMaster {
                                 this.roomState = "privacyGoodUploadState";
                             }
                             if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyGoodUploadState") {
+                                console.log("Upload geklikt");
+                                this.gameState = "levelSelect";
+                            }
+                            if (this.gameObjects[i].getName() === "privacyDoor" && this.roomState === "privacyInProgress") {
                                 console.log("Upload geklikt");
                                 this.gameState = "levelSelect";
                             }

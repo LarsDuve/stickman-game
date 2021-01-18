@@ -28,12 +28,7 @@ class GameMaster {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;    	
 
-        this.gameState = "stickmanStartScreen"; 
-        
-        
-        
-        
-        
+        this.gameState = "stickmanStartScreen";
 
         window.addEventListener("keypress", this.keyPress);
         document.addEventListener("click", this.clickHandler);
@@ -111,24 +106,21 @@ class GameMaster {
                 console.log(`clicked ${this.gameObjects[i].getName()}`)
                 if (this.gameObjects[i].clickObjectState === "unclicked") {
                     if (this.gameObjects[i].getName()=== "startButton"){
-                        this.gameState = "levelSelect";
+                        
+                        
                         const myAudio = new Audio('assets/audio/jazzMusic.mp3'); 
-        if (typeof myAudio.loop == 'boolean')
-            {
-          myAudio.loop = true;
-          
-            }
-            else
-        {
+        
          myAudio.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
         
             }, false);
-            }
-        myAudio.volume = 0.008;
+        myAudio.volume = 0.004;
         myAudio.play();
+        this.gameState = "levelSelect";
+        
                     }
+                    if(this.gameState === "levelSelect"){
                     if (this.gameObjects[i].getName()=== "diningRoomTopPicture"){
                         this.gameState = "password";
                         this.roomState = "passwordBeginState";
@@ -144,6 +136,7 @@ class GameMaster {
                         this.gameState = "garage";
                         
                     }
+                }
                 
                     // Password Room -------------------------------------------------------
                     if (this.gameState === "password") {
@@ -277,6 +270,10 @@ class GameMaster {
                         this.roomState = "privacyGoodUploadState";                
                     }
                     if (this.gameObjects[i].getName() ==="privacyDoor" && this.roomState === "privacyGoodUploadState"){
+                        console.log("Upload geklikt");
+                        this.gameState = "levelSelect";             
+                    }
+                    if (this.gameObjects[i].getName() ==="privacyDoor" && this.roomState === "privacyInProgress"){
                         console.log("Upload geklikt");
                         this.gameState = "levelSelect";             
                     }
